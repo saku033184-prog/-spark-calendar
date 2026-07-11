@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffddec">
+<title>すぱすぱ 出演メンバーカレンダー</title>
+<style>
+:root{
+  --pink:#ff6fa9;
+  --pink-dark:#d94e8a;
+  --pink-soft:#fff2f7;
+  --cream:#fffdfd;
+  --line:#f1c7d9;
+  --text:#6c4358;
+  --sun:#ff5b81;
+  --sat:#4f99df;
+  --gold:#ffc83d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  background:
+    radial-gradient(circle at 12% 0,#fff 0 8%,transparent 26%),
+    radial-gradient(circle at 95% 8%,#ffe4f1 0 15%,transparent 34%),
+    linear-gradient(180deg,#fff9fc,#ffeef5);
+  min-height:100vh;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.4;
+  background:
+    radial-gradient(circle,#fff 0 1px,transparent 2px) 0 0/24px 24px,
+    radial-gradient(circle,#ffd8eb 0 1px,transparent 2px) 12px 12px/32px 32px;
+}
+main{max-width:760px;margin:auto;padding:10px 7px 42px;position:relative}
+.hero{text-align:center;padding:18px 8px 12px}
+.logo{font-family:Georgia,serif;color:#d96c9d;font-size:20px}
+.logo strong{font-size:38px;color:#ef4d97}
+.hero h1{font-size:clamp(25px,8vw,43px);margin:7px 0;color:#d95e97}
+.hero p{font-size:13px;margin:0;color:#9d7387}
+
+.panel,.calendar-wrap{
+  background:rgba(255,255,255,.9);
+  border:1px solid #f3cbdc;
+  border-radius:25px;
+  box-shadow:0 14px 36px rgba(219,88,147,.14);
+  backdrop-filter:blur(14px);
+}
+.panel{padding:12px;margin:10px 0}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.eyebrow{font-size:10px;letter-spacing:.16em;color:#e47ca6}
+h2{font-size:17px;margin:4px 0 10px;color:#cb4e87}
+.ghost-btn{
+  border:1px solid #efc5d7;
+  background:#fff;
+  color:#cb568a;
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:11px;
+  font-weight:800;
+}
+
+
+.member-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+}
+
+.member-card{
+  --member-strong:#ff78ae;
+  --member-soft:#fff0f6;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  min-width:0;
+  text-align:left;
+  border:1px solid #f1ccdc;
+  background:linear-gradient(135deg,#fff,#fff8fb);
+  color:#684054;
+  border-radius:15px;
+  padding:8px 9px;
+  min-height:42px;
+  box-shadow:0 4px 12px rgba(218,98,151,.07);
+  transition:.2s ease;
+}
+.member-card.selected{
+  border-color:var(--member-strong);
+  background:linear-gradient(135deg,var(--member-soft),#fff);
+  transform:translateY(-1px);
+  box-shadow:0 8px 20px color-mix(in srgb,var(--member-strong) 22%,transparent);
+}
+
+.member-name{
+  font-size:12px;
+  font-weight:900;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+
+.checkmark{
+  display:grid;
+  place-items:center;
+  width:20px;
+  height:20px;
+  min-width:20px;
+  border-radius:50%;
+  border:1px solid #efcad9;
+  color:transparent;
+  background:#fff;
+  font-size:11px;
+  font-weight:900;
+}
+.member-card.selected .checkmark{
+  background:var(--member-strong);
+  border-color:var(--member-strong);
+  color:white;
+}
+.member-card.nodata{opacity:.38}
+.tiny{font-size:10px;color:#987184;margin:10px 2px 0}
+
+.calendar-wrap{
+  overflow:hidden;
+  margin-top:14px;
+  scroll-margin-top:8px;
+}
+.calendar-title{text-align:center;padding:13px 8px 10px}
+.calendar-title b{display:block;font-size:19px;color:#d65490}
+.calendar-title small{display:block;font-size:10px;color:#a0778b;margin-top:4px}
+.selected-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding:0 10px 10px;
+}
+.legend-chip{
+  --chip:#ff78ae;
+  padding:6px 10px;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--chip) 13%,white);
+  border:1px solid color-mix(in srgb,var(--chip) 45%,white);
+  color:var(--chip);
+  font-size:10px;
+  font-weight:900;
+}
+.hidden{display:none!important}
+
+.weekdays,.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+}
+.weekdays div{
+  padding:7px 0;
+  text-align:center;
+  font-size:12px;
+  font-weight:900;
+  background:#fff7fb;
+  border-top:1px solid var(--line);
+  border-right:1px solid var(--line);
+}
+.weekdays .sun{color:var(--sun)}
+.weekdays .sat{color:var(--sat)}
+
+
+.day{
+  min-width:0;
+  height:86px;
+  padding:3px;
+  overflow:hidden;
+  position:relative;
+  background:#fff;
+  border-top:1px solid var(--line);
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.day.empty{background:#fffafd}
+.day-number{
+  font-size:11px;
+  font-weight:900;
+  color:#744b61;
+  margin-bottom:3px;
+}
+.day:nth-child(7n+1) .day-number{color:var(--sun)}
+.day:nth-child(7n) .day-number{color:var(--sat)}
+.event{
+  font-size:6.8px;
+  line-height:1.08;
+  font-weight:900;
+  color:#e25697;
+  margin:1px 0 3px;
+  word-break:break-word;
+}
+
+.shift{
+  --shift-strong:#ff78ae;
+  --shift-soft:#fff0f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:2px 0;
+  padding:3px 4px;
+  border-radius:6px;
+  background:var(--shift-strong);
+  border:1px solid var(--shift-strong);
+  box-shadow:0 2px 6px color-mix(in srgb,var(--shift-strong) 18%,transparent);
+}
+
+.shift b{
+  font-size:7px;
+  line-height:1;
+  color:#fff;
+  font-weight:900;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.shift span{display:none}
+.day.next-glow{
+  background:linear-gradient(180deg,#fffdf1,#fff5c8);
+  box-shadow:
+    inset 0 0 0 2px #ffd75e,
+    0 0 18px rgba(255,200,61,.58);
+  animation:twinkle 1.45s ease-in-out infinite alternate;
+}
+.day.next-glow:before,
+.day.next-glow:after{
+  content:"✦";
+  position:absolute;
+  color:#ffc83d;
+  font-size:12px;
+  pointer-events:none;
+  animation:spark 1.2s ease-in-out infinite alternate;
+}
+.day.next-glow:before{right:4px;top:3px}
+.day.next-glow:after{left:4px;bottom:3px;animation-delay:.35s}
+.shift.next-person{
+  background:var(--shift-strong);
+  border-color:var(--shift-strong);
+  box-shadow:0 0 13px color-mix(in srgb,var(--shift-strong) 48%,transparent);
+}
+.shift.next-person b,
+.shift.next-person span{color:#fff}
+
+.next-panel{background:linear-gradient(135deg,#fff,#fff4f9)}
+.next-cards{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+.next-card{
+  --card-strong:#ff78ae;
+  --card-soft:#fff0f6;
+  min-width:165px;
+  background:linear-gradient(135deg,var(--card-soft),#fff);
+  border:1px solid color-mix(in srgb,var(--card-strong) 40%,white);
+  border-radius:18px;
+  padding:12px;
+}
+.next-card b{font-size:14px;color:var(--card-strong)}
+.next-date{font-size:18px;font-weight:900;color:var(--card-strong);margin:6px 0 2px}
+.next-card small{font-size:10px;color:#997184}
+
+@keyframes twinkle{
+  from{box-shadow:inset 0 0 0 2px #ffd65c,0 0 10px rgba(255,200,61,.35)}
+  to{box-shadow:inset 0 0 0 2px #fff0a6,0 0 24px rgba(255,200,61,.78)}
+}
+@keyframes spark{
+  from{transform:scale(.75) rotate(0deg);opacity:.55}
+  to{transform:scale(1.25) rotate(20deg);opacity:1}
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%) translateY(90px);
+  background:#fff;
+  color:#b34c7c;
+  border:1px solid #f0c7d9;
+  border-radius:999px;
+  padding:10px 14px;
+  font-size:12px;
+  font-weight:900;
+  transition:.25s;
+  z-index:20;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+
+.day{cursor:pointer}
+.day:active{transform:scale(.985)}
+.day-modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:grid;
+  place-items:end center;
+}
+.day-modal.hidden{display:none!important}
+.day-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(87,43,66,.38);
+  backdrop-filter:blur(5px);
+}
+.day-modal-card{
+  position:relative;
+  width:min(100%,760px);
+  max-height:82vh;
+  overflow:auto;
+  background:
+    radial-gradient(circle at 15% 0,#fff 0 6%,transparent 24%),
+    linear-gradient(180deg,#fffafd,#fff0f7);
+  border:1px solid #f3c9dc;
+  border-radius:28px 28px 0 0;
+  padding:22px 18px calc(22px + env(safe-area-inset-bottom));
+  box-shadow:0 -20px 60px rgba(204,69,133,.2);
+  animation:modalUp .28s ease-out;
+}
+@keyframes modalUp{
+  from{transform:translateY(35px);opacity:.4}
+  to{transform:translateY(0);opacity:1}
+}
+.day-modal-close{
+  position:fixed;
+  top:max(16px,env(safe-area-inset-top));
+  right:16px;
+  width:48px;
+  height:48px;
+  min-width:48px;
+  min-height:48px;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:2px solid #efc6d8;
+  background:#fff;
+  color:#c84f87;
+  font-size:30px;
+  line-height:1;
+  font-weight:700;
+  box-shadow:0 8px 24px rgba(157,71,112,.18);
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  cursor:pointer;
+}
+.day-modal-kicker{
+  font-size:10px;
+  letter-spacing:.18em;
+  font-weight:900;
+  color:#e37ca6;
+}
+.day-modal-card h2{
+  margin:5px 44px 8px 0;
+  font-size:23px;
+}
+.day-modal-event{
+  color:#e25796;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+.day-modal-members{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin:12px 0 16px;
+}
+.day-member{
+  border:1px solid color-mix(in srgb,var(--day-color) 42%,white);
+  background:color-mix(in srgb,var(--day-color) 12%,white);
+  border-radius:16px;
+  padding:10px 11px;
+  min-width:0;
+}
+.day-member b{
+  display:block;
+  color:var(--day-color);
+  font-size:14px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.day-member span{
+  display:block;
+  margin-top:3px;
+  color:#7d5669;
+  font-size:10px;
+  font-weight:800;
+}
+.day-empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:20px 8px;
+  color:#9f788b;
+  font-size:13px;
+}
+.reserve-btn{
+  display:block;
+  width:100%;
+  text-align:center;
+  text-decoration:none;
+  color:#fff;
+  font-size:17px;
+  font-weight:900;
+  padding:14px 16px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#ff72ad,#d96ee7);
+  box-shadow:0 10px 24px rgba(227,87,157,.28);
+}
+.reserve-note{
+  margin:8px 0 0;
+  text-align:center;
+  color:#a1788b;
+  font-size:9px;
+}
+body.modal-open{overflow:hidden}
+
+@media(max-width:430px){
+  main{padding:8px 5px 30px}
+  .hero{padding-top:10px}
+  .member-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .member-card{padding:7px 8px;min-height:40px}
+  .member-name{font-size:11px}
+  .day{height:82px;padding:2px}
+  .day-number{font-size:10px}
+  .event{font-size:6.1px}
+  .shift{padding:3px 2px}
+  .shift b{font-size:6.7px}
+}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="logo">Super <strong>Spark</strong> Tokyo</div>
+    <h1>出演メンバーカレンダー</h1>
+    <p>会いたい子を選ぶと、その子の出演日がカレンダーに出るよ♡</p>
+  </header>
+
+  <section class="panel selector-panel">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">MEMBER SELECT</span>
+        <h2>会いたい女の子を選んでね♡</h2>
+      </div>
+      <button id="clearBtn" class="ghost-btn">すべてクリア</button>
+    </div>
+
+    <div id="memberGrid" class="member-grid">
+<button type="button" class="member-card" data-name="まい"><span class="member-name">まい</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="じゅんな"><span class="member-name">じゅんな</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="えいか"><span class="member-name">えいか</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="さく"><span class="member-name">さく</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="さつき"><span class="member-name">さつき</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="KAHO"><span class="member-name">KAHO</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="しずく"><span class="member-name">しずく</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="みお"><span class="member-name">みお</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="あきな"><span class="member-name">あきな</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="あやね"><span class="member-name">あやね</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="おすず"><span class="member-name">おすず</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="MOKA"><span class="member-name">MOKA</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="おはぎ"><span class="member-name">おはぎ</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="ことは"><span class="member-name">ことは</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="あも"><span class="member-name">あも</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="ANNA"><span class="member-name">ANNA</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="うさ"><span class="member-name">うさ</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="うな"><span class="member-name">うな</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="りあん"><span class="member-name">りあん</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="かぐや"><span class="member-name">かぐや</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="Sally"><span class="member-name">Sally</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="うらら"><span class="member-name">うらら</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="れい"><span class="member-name">れい</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="あおい"><span class="member-name">あおい</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="YUU"><span class="member-name">YUU</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="ひかり"><span class="member-name">ひかり</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="みさき"><span class="member-name">みさき</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card" data-name="まり"><span class="member-name">まり</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card nodata" data-name="せりな"><span class="member-name">せりな</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card nodata" data-name="つきの"><span class="member-name">つきの</span><span class="checkmark">✓</span></button>
+<button type="button" class="member-card nodata" data-name="りりか"><span class="member-name">りりか</span><span class="checkmark">✓</span></button>
+</div>
+
+    
+    <p class="tiny">※ りりか・せりな・つきの：7月データ見つからず😭</p>
+  </section>
+
+  <section id="calendarSection" class="calendar-wrap">
+    <div class="calendar-title">
+      <b>🎀 2026年 7月 🎀</b>
+      <small id="selectedSummary">女の子を選ぶと、ここに出演日が表示されます</small>
+    </div>
+
+    <div id="selectedLegend" class="selected-legend hidden"></div>
+
+    <div class="weekdays">
+      <div class="sun">日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div class="sat">土</div>
+    </div>
+    <div id="calendar" class="calendar"></div>
+  </section>
+
+  <section id="nextSection" class="panel next-panel hidden">
+    <span class="eyebrow">NEXT APPEARANCE</span>
+    <h2>次いつ会える？</h2>
+    <div id="nextCards" class="next-cards"></div>
+  </section>
+</main>
+
+
+<div id="dayModal" class="day-modal hidden" aria-hidden="true">
+  <div class="day-modal-backdrop" data-close-modal></div>
+  <div class="day-modal-card" role="dialog" aria-modal="true" aria-labelledby="dayModalTitle">
+    <button id="dayModalCloseBtn" class="day-modal-close" type="button" aria-label="閉じる">×</button>
+    <div class="day-modal-kicker">TODAY'S MEMBERS</div>
+    <h2 id="dayModalTitle">7/1 の出演メンバー</h2>
+    <div id="dayModalEvent" class="day-modal-event"></div>
+    <div id="dayModalMembers" class="day-modal-members"></div>
+    <a class="reserve-btn" href="https://superspark.tokyo/booking/" target="_blank" rel="noopener noreferrer">
+      💖 予約はこちら
+    </a>
+    <p class="reserve-note">SUPER SPARK TOKYO 公式WEB予約へ移動します</p>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script>
+const state={data:{"year": 2026, "month": 7, "members": {"まい": {"2": "1・2・3部", "3": "1・2・3部", "4": "1・2・3部", "5": "1・2・3部", "6": "1・2・3部", "8": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "12": "1・2・3部", "13": "1・2・3部", "15": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "18": "1・2・3部", "19": "1・2・3部", "21": "1・2・3部", "22": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "26": "1・2・3部", "27": "1・2・3部", "29": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "じゅんな": {"1": "1・2・3部", "2": "1・2・3部", "4": "1・2・3部", "5": "1・2・3部", "6": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "11": "1・2・3部", "12": "1・2・3部", "13": "1・2・3部", "14": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "18": "1・2・3部", "19": "1・2・3部", "20": "1・2・3部", "22": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "26": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "31": "1・2・3部"}, "えいか": {"1": "1・2部", "2": "1・2・3部", "3": "1・2部", "5": "1・2部", "6": "1・2部", "7": "1・2・3部", "9": "1・2・3部", "10": "1・2部", "12": "1・2・3部", "14": "1・2部", "15": "1・2部", "16": "1・2・3部", "18": "選抜出張", "19": "1・2・3部", "20": "1・2・3部", "22": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "29": "1・2・3部", "31": "1・2部"}, "さく": {"2": "1・2・3部", "3": "1・2・3部", "6": "1・2・3部", "7": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "12": "1・2・3部", "13": "1・2・3部", "14": "1・2・3部", "17": "1・2・3部", "18": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "22": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "26": "1・2・3部", "28": "1・2・3部", "29": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "さつき": {"2": "2・3部", "3": "2・3部", "4": "1・2・3部", "6": "2・3部", "7": "2・3部", "9": "2・3部", "10": "2・3部", "11": "1・2・3部", "12": "1・2・3部", "14": "2・3部", "15": "2・3部", "17": "2・3部", "19": "1・2・3部", "20": "2・3部", "21": "2・3部", "22": "2・3部", "24": "2・3部", "25": "1・2・3部", "28": "2・3部", "29": "2・3部", "31": "2・3部"}, "KAHO": {"3": "1・2・3部", "4": "1・2・3部", "5": "1・2部", "7": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "11": "1・2・3部", "12": "1・2部", "15": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "18": "1・2・3部", "19": "1・2・3部", "21": "1・2・3部", "22": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "26": "1・2・3部", "28": "1・2・3部", "31": "1・2・3部"}, "しずく": {"1": "1・2・3部", "2": "1・2・3部", "3": "1・2・3部", "4": "1・2・3部", "5": "1・2・3部", "7": "1・2・3部", "8": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "15": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "19": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "25": "2・3部", "27": "1・2・3部", "28": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "みお": {"2": "1・2・3部", "3": "1・2・3部", "5": "1・2・3部", "6": "1・2・3部", "7": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "11": "選抜出演", "12": "2・3部", "14": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "18": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "31": "1・2・3部"}, "あきな": {"3": "1・2・3部", "7": "1・2・3部", "8": "1・2・3部", "9": "1・2・3部", "11": "1・2・3部", "12": "1・2・3部", "13": "1・2・3部", "14": "1・2部", "17": "1・2・3部", "18": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "22": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "あやね": {"1": "1・2・3部", "2": "1・2・3部", "3": "1・2・3部", "5": "3部", "8": "1・2・3部", "10": "1・2・3部", "11": "1・2・3部", "18": "1・2・3部", "19": "1・2・3部", "20": "1・2・3部", "22": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "26": "1・2・3部", "28": "1・2・3部", "29": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "おすず": {"5": "1・2・3部", "6": "1・2・3部", "10": "1・2・3部", "11": "1・2・3部", "12": "1・2・3部", "13": "1・2・3部", "14": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "19": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "26": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "MOKA": {"2": "1・2・3部", "3": "1・2・3部", "5": "1・2部", "9": "1・2・3部", "10": "1・2・3部", "12": "1・2・3部", "14": "1・2・3部", "16": "1・2・3部", "17": "1・2・3部", "19": "1・2・3部", "20": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "おはぎ": {"1": "1・2・3部", "6": "1・2・3部", "8": "1・2・3部", "9": "1・2・3部", "10": "1・2・3部", "12": "1・2・3部", "13": "1・2・3部", "14": "1・2・3部", "17": "1・2・3部", "18": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "23": "1・2・3部", "24": "1・2・3部", "27": "1・2・3部", "28": "1・2・3部", "30": "1・2・3部", "31": "1・2・3部"}, "ことは": {"2": "1・2部", "3": "1・2部", "4": "1・2部", "7": "1・2部", "9": "1・2部", "10": "1・2部", "11": "1・2部", "14": "1・2部", "16": "1・2部", "17": "1・2部", "18": "1・2部", "21": "1・2部", "23": "1・2部", "24": "1・2部", "25": "1・2部", "28": "1・2部", "30": "1・2部", "31": "1・2部"}, "あも": {"2": "1・2・3部", "3": "1・2部", "4": "1・2部", "5": "1・2・3部", "9": "1・2・3部", "10": "1・2部", "11": "1・2部", "12": "1・2・3部", "16": "1・2・3部", "17": "1・2部", "18": "1・2部", "23": "1・2・3部", "24": "1・2部", "25": "1・2部", "26": "1・2・3部", "30": "1・2・3部", "31": "1・2部"}, "ANNA": {"1": "選抜出張", "2": "1・2・3部", "3": "1・2・3部", "7": "1・2・3部", "8": "1・2・3部", "11": "1・2・3部", "12": "1・2・3部", "14": "1・2・3部", "18": "1・2・3部", "19": "1・2・3部", "20": "1・2・3部", "21": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "27": "1・2・3部", "30": "1・2・3部"}, "うさ": {"1": "1・2部", "3": "1・2部", "4": "1・2部", "7": "1・2部", "9": "1・2部", "10": "1・2部", "12": "1・2部", "14": "1・2部", "15": "1・2部", "21": "1・2部", "23": "1・2部", "24": "1・2部", "26": "1・2部", "28": "1・2部", "30": "1・2部", "31": "1・2部"}, "うな": {"3": "1・2部", "4": "1・2・3部", "6": "1・2・3部", "7": "1・2・3部", "9": "1・2部", "11": "1・2部", "13": "1・2・3部", "14": "1・2・3部", "17": "1・2部", "18": "1・2部", "20": "1・2・3部", "23": "1・2部", "26": "1・2部", "28": "1・2・3部", "29": "1・2・3部", "31": "1・2部"}, "りあん": {"1": "1・2・3部", "3": "1・2・3部", "4": "1・2・3部", "6": "1・2・3部", "8": "1・2・3部", "10": "1・2・3部", "11": "1・2・3部", "12": "1・2・3部", "15": "1・2・3部", "17": "1・2・3部", "18": "選抜出張", "20": "1・2・3部", "24": "1・2・3部", "25": "1・2・3部", "29": "1・2・3部", "30": "1・2・3部"}, "かぐや": {"3": "1・2部", "5": "1・2部", "6": "1・2部", "9": "1・2部", "10": "1・2部", "12": "1・2部", "16": "1・2部", "18": "選抜出張", "19": "1・2部", "20": "1・2部", "23": "1・2部", "25": "1・2部", "26": "1・2部", "29": "1・2部", "31": "1・2部"}, "Sally": {"2": "1・2部", "4": "1・2部", "7": "1・2部", "9": "1・2部", "12": "2・3部", "14": "1・2部", "16": "1・2部", "18": "撮影会・選抜出張", "20": "1・2部", "23": "1・2部", "24": "1・2部", "26": "1・2部", "29": "1・2部", "31": "1・2部"}, "うらら": {"2": "選抜出張", "3": "1・2部", "7": "1・2・3部", "15": "1・2部", "17": "1・2部", "19": "1・2部", "23": "1・2部", "24": "1・2部", "26": "1・2部", "27": "1・2部", "29": "1・2部", "30": "1・2部"}, "れい": {"19": "1・2部", "20": "1・2部", "21": "1・2部", "22": "1・2部", "23": "1・2部", "24": "1・2部", "25": "1・2部", "26": "1・2部", "27": "1・2部", "28": "1・2部", "29": "1・2部", "31": "1・2部"}, "あおい": {"19": "1・2部", "21": "1・2部", "22": "1・2部", "24": "1・2部", "26": "1・2部", "27": "1・2部", "28": "1・2部", "29": "1・2部", "30": "1・2部", "31": "1・2部"}, "YUU": {"19": "1・2部", "21": "1・2部", "23": "1・2部", "25": "1・2部", "26": "1・2部", "28": "1・2部", "30": "1・2部"}, "ひかり": {"4": "1・2・3部", "5": "1・2・3部", "11": "1・2・3部", "12": "1・2・3部", "18": "1・2・3部", "19": "1・2・3部", "25": "1・2・3部"}, "みさき": {"4": "1・2部", "9": "1・2部", "10": "1・2部", "16": "1・2・3部", "17": "1・2・3部", "25": "1・2部"}, "まり": {"12": "1・2部", "20": "1・2部", "26": "1・2部"}, "せりな": {}, "つきの": {}, "りりか": {}}, "events": {"1": ["ワールドサッカー"], "2": ["ワールドサッカー"], "3": ["ワールドサッカー"], "4": ["ワールドサッカー"], "5": ["ワールドサッカー"], "6": ["ワールドサッカー"], "7": ["七夕祭り（浴衣）", "Guest 深田えいみ"], "8": ["ワールドサッカー"], "9": ["ワールドサッカー", "じゅり6周年"], "10": ["ワールドサッカー"], "11": ["ワールドサッカー"], "12": ["とし生誕祭", "ワールドサッカー"], "13": ["浴衣イベント"], "14": ["浴衣イベント"], "15": ["浴衣イベント"], "16": ["みらん生誕祭"], "17": ["浴衣イベント"], "18": ["浴衣イベント"], "19": ["新人デビュー", "浴衣イベント"], "20": ["りりか生誕祭"], "21": ["ヴィンテージT／アニメ"], "22": ["Guest 美谷朱音", "ヴィンテージT／アニメ"], "23": [], "24": [], "25": ["Guest れいな寿司"], "26": ["夏祭り（浴衣）"], "27": ["夏祭り（浴衣）"], "28": ["夏祭り（浴衣）"], "29": ["夏祭り（浴衣）"], "30": ["夏祭り（浴衣）"], "31": ["夏祭り（浴衣）"]}},selected:new Set()};
+const daysJP=["日","月","火","水","木","金","土"];
+const palette=[
+  ["#ff78ae","#fff0f6"],
+  ["#a76de8","#f5edff"],
+  ["#55b7e9","#eaf8ff"],
+  ["#ff9f43","#fff4e7"],
+  ["#54c89c","#eafbf5"],
+  ["#f06f6f","#fff0f0"],
+  ["#8f8cff","#f0efff"],
+  ["#d77cc8","#fff0fc"]
+];
+
+function init(){
+  renderMembers();
+  renderCalendar();
+  renderNext();
+  bind();
+}
+
+function bind(){
+  document.getElementById("clearBtn").onclick=()=>{
+    state.selected.clear();
+    renderMembers();
+    renderCalendar();
+    renderNext();
+  };
+
+  const closeBtn=document.getElementById("dayModalCloseBtn");
+  if(closeBtn){
+    closeBtn.addEventListener("click", closeDayModal);
+    closeBtn.addEventListener("touchend", (e)=>{
+      e.preventDefault();
+      closeDayModal();
+    }, {passive:false});
+  }
+
+  const backdrop=document.querySelector(".day-modal-backdrop");
+  if(backdrop){
+    backdrop.addEventListener("click", closeDayModal);
+  }
+}
+
+function colorFor(name){
+  const index=[...state.selected].indexOf(name);
+  return palette[(index<0?0:index)%palette.length];
+}
+
+function renderMembers(){
+  const box=document.getElementById("memberGrid");
+  box.innerHTML="";
+  Object.entries(state.data.members).forEach(([name,schedule])=>{
+    const count=Object.keys(schedule).length;
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="member-card"+(state.selected.has(name)?" selected":"")+(count?"":" nodata");
+    b.dataset.name=name;
+
+    if(state.selected.has(name)){
+      const [strong,soft]=colorFor(name);
+      b.style.setProperty("--member-strong",strong);
+      b.style.setProperty("--member-soft",soft);
+    }
+
+    b.innerHTML=`
+      <span class="member-name">${name}</span>
+      
+      <span class="checkmark">✓</span>
+    `;
+
+    b.onclick=()=>{
+      if(!count){
+        toast("7月データ見つからず😭");
+        return;
+      }
+      state.selected.has(name)?state.selected.delete(name):state.selected.add(name);
+      renderMembers();
+      renderCalendar();
+      renderNext();
+
+      if(state.selected.size){
+        setTimeout(()=>{
+          document.getElementById("calendarSection").scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+          });
+        },100);
+      }
+    };
+
+    box.appendChild(b);
+  });
+}
+
+function getNextMap(){
+  const map={};
+  const now=new Date();
+  const start=(now.getFullYear()===2026&&now.getMonth()===6)?now.getDate():1;
+
+  [...state.selected].forEach(name=>{
+    const days=Object.keys(state.data.members[name])
+      .map(Number)
+      .filter(d=>d>=start)
+      .sort((a,b)=>a-b);
+    if(days.length) map[name]=days[0];
+  });
+
+  return map;
+}
+
+function renderLegend(){
+  const legend=document.getElementById("selectedLegend");
+  const summary=document.getElementById("selectedSummary");
+  const selected=[...state.selected];
+
+  if(!selected.length){
+    legend.classList.add("hidden");
+    legend.innerHTML="";
+    summary.textContent="女の子を選ぶと、ここに出演日が表示されます";
+    return;
+  }
+
+  legend.classList.remove("hidden");
+  summary.textContent=`${selected.length}人選択中`;
+  legend.innerHTML=selected.map(name=>{
+    const [strong]=colorFor(name);
+    return `<span class="legend-chip" style="--chip:${strong}">${name}</span>`;
+  }).join("");
+}
+
+function renderCalendar(){
+  const cal=document.getElementById("calendar");
+  cal.innerHTML="";
+  renderLegend();
+
+  const first=new Date(2026,6,1).getDay();
+  for(let i=0;i<first;i++){
+    const e=document.createElement("div");
+    e.className="day empty";
+    cal.appendChild(e);
+  }
+
+  const selected=[...state.selected];
+  const nextMap=getNextMap();
+
+  for(let d=1;d<=31;d++){
+    const cell=document.createElement("div");
+    cell.className="day";
+
+    const present=selected.filter(name=>state.data.members[name][String(d)]);
+    const nextNames=present.filter(name=>nextMap[name]===d);
+
+    if(nextNames.length) cell.classList.add("next-glow");
+
+    cell.innerHTML=`<div class="day-number">${d}</div>`;
+
+    (state.data.events[String(d)]||[]).forEach(eventName=>{
+      const ev=document.createElement("div");
+      ev.className="event";
+      ev.textContent=eventName;
+      cell.appendChild(ev);
+    });
+
+    present.forEach(name=>{
+      const [strong,soft]=colorFor(name);
+      const shift=document.createElement("div");
+      shift.className="shift"+(nextMap[name]===d?" next-person":"");
+      shift.style.setProperty("--shift-strong",strong);
+      shift.style.setProperty("--shift-soft",soft);
+      shift.innerHTML=`<b>${name}</b>`;
+      cell.appendChild(shift);
+    });
+
+    cell.onclick=()=>openDayModal(d);
+    cal.appendChild(cell);
+  }
+}
+
+function renderNext(){
+  const sec=document.getElementById("nextSection");
+  const box=document.getElementById("nextCards");
+  box.innerHTML="";
+
+  if(!state.selected.size){
+    sec.classList.add("hidden");
+    return;
+  }
+
+  sec.classList.remove("hidden");
+  const nextMap=getNextMap();
+
+  [...state.selected].forEach(name=>{
+    const d=nextMap[name];
+    const card=document.createElement("div");
+    card.className="next-card";
+    const [strong,soft]=colorFor(name);
+    card.style.setProperty("--card-strong",strong);
+    card.style.setProperty("--card-soft",soft);
+
+    if(d){
+      const dt=new Date(2026,6,d);
+      card.innerHTML=`
+        <b>${name}</b>
+        <div class="next-date">7/${d}（${daysJP[dt.getDay()]}）</div>
+        <div>${state.data.members[name][String(d)]}</div>
+        <small>カレンダーでキラキラ表示中✨</small>
+      `;
+    }else{
+      card.innerHTML=`
+        <b>${name}</b>
+        <div class="next-date">今月は終了</div>
+      `;
+    }
+
+    box.appendChild(card);
+  });
+}
+
+
+function allMembersOnDay(day){
+  return Object.entries(state.data.members)
+    .filter(([_,schedule])=>schedule[String(day)])
+    .map(([name,schedule])=>({name,shift:schedule[String(day)]}));
+}
+
+function stableMemberColor(name){
+  const allNames=Object.keys(state.data.members);
+  const idx=Math.max(0,allNames.indexOf(name));
+  return palette[idx%palette.length][0];
+}
+
+function openDayModal(day){
+  const modal=document.getElementById("dayModal");
+  const title=document.getElementById("dayModalTitle");
+  const eventBox=document.getElementById("dayModalEvent");
+  const membersBox=document.getElementById("dayModalMembers");
+  const members=allMembersOnDay(day);
+  const events=state.data.events[String(day)]||[];
+  const dt=new Date(2026,6,day);
+
+  title.textContent=`7/${day}（${daysJP[dt.getDay()]}）の出演メンバー`;
+  eventBox.textContent=events.join(" / ");
+  membersBox.innerHTML=members.length
+    ? members.map(({name,shift})=>`
+        <div class="day-member" style="--day-color:${stableMemberColor(name)}">
+          <b>${name}</b>
+          <span>${shift}</span>
+        </div>
+      `).join("")
+    : `<div class="day-empty">この日の出演データはありません</div>`;
+
+  modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden","false");
+  document.body.classList.add("modal-open");
+}
+
+document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeDayModal();});
+
+function closeDayModal(){
+  const modal=document.getElementById("dayModal");
+  modal.classList.add("hidden");
+  modal.setAttribute("aria-hidden","true");
+  document.body.classList.remove("modal-open");
+}
+
+function toast(message){
+  const t=document.getElementById("toast");
+  t.textContent=message;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),1600);
+}
+
+init();
+</script>
+</body>
+</html>

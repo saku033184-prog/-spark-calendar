@@ -987,6 +987,17 @@ body::after{
   filter:none !important;
 }
 
+
+.member.selected{
+  filter:saturate(1.08) brightness(1.01)!important;
+}
+.member.selected .name{
+  font-weight:800!important;
+}
+.shift{
+  border-width:2px!important;
+}
+
 </style>
 </head>
 <body>
@@ -1055,16 +1066,16 @@ const monthKeys=Object.keys(MONTHS).sort();
 const state={key:monthKeys.includes("2026-08")?"2026-08":monthKeys[0],selected:new Set()};
 const daysJP=["日","月","火","水","木","金","土"];
 const memberPalette=[
-  ["#f3b6cc","#fff0f6"],
-  ["#f6c5a8","#fff3ea"],
-  ["#efd98d","#fff8dc"],
-  ["#bfe6d1","#eefaf4"],
-  ["#bcdcf4","#eef7fd"],
-  ["#d7c6ef","#f6f0fd"],
-  ["#e7c8dc","#fbf2f8"],
-  ["#cfd7e8","#f4f7fb"],
-  ["#cbe6e1","#f1faf8"],
-  ["#ead8bd","#fbf6ee"]
+  ["#ff9fc4","#fff3f8"],
+  ["#ffbf99","#fff5ee"],
+  ["#ffe08a","#fff9e8"],
+  ["#9fe7c2","#effdf6"],
+  ["#9fd6ff","#eef8ff"],
+  ["#d2b2ff","#f7f1ff"],
+  ["#ffb6de","#fff2fa"],
+  ["#bfd0ff","#f2f6ff"],
+  ["#aee9e5","#effdfb"],
+  ["#ffe2b8","#fff8ef"]
 ];
 
 function selectedColor(name){

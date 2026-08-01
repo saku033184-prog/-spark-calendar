@@ -1,15 +1,606 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffddec"><link rel="manifest" href="manifest.webmanifest"><title>すぱすぱ 出演メンバーカレンダー</title><style>
-:root{--pink:#ff6fa9;--dark:#d94e8a;--soft:#fff2f7;--line:#f1c7d9;--text:#6c4358;--panel:rgba(255,255,255,.93);--bg1:#fff9fc;--bg2:#ffeef5;--muted:#9d7387}body.dark{--text:#f8ddea;--line:#74475d;--panel:rgba(43,28,39,.94);--bg1:#251923;--bg2:#3a2332;--muted:#cfa9bb}*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));min-height:100vh}main{max-width:780px;margin:auto;padding:8px 6px 40px}.hero{text-align:center;padding:14px 8px}.logo{font-family:Georgia,serif;color:#d96c9d;font-size:20px}.logo strong{font-size:38px;color:#ef4d97}.hero h1{font-size:clamp(25px,8vw,42px);margin:5px 0;color:#d95e97}.hero p{font-size:13px;color:var(--muted)}.panel,.calendar-wrap{background:var(--panel);border:1px solid #f3cbdc;border-radius:24px;box-shadow:0 14px 36px rgba(219,88,147,.14);backdrop-filter:blur(14px)}.panel{padding:12px;margin:10px 0}.toolbar,.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.month-nav{display:flex;align-items:center;gap:8px}.btn{border:1px solid #efc5d7;background:var(--panel);color:#cb568a;border-radius:999px;padding:9px 12px;font-size:12px;font-weight:900}.month-label{min-width:118px;text-align:center;font-weight:900;color:#d65490}.eyebrow{font-size:10px;letter-spacing:.16em;color:#e47ca6}h2{font-size:17px;margin:4px 0 10px;color:#cb4e87}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.summary>div{background:#fff7fb;border:1px solid #f0cadd;border-radius:17px;padding:10px}.dark .summary>div{background:#3b2634}.summary b{display:block;color:#d65391;font-size:18px}.summary span{font-size:10px;color:var(--muted)}.today-list{display:flex;gap:7px;overflow:auto;margin-top:9px}.chip{white-space:nowrap;border-radius:999px;padding:7px 10px;background:#fff0f6;border:1px solid #f0cadd;font-size:11px;font-weight:900;color:#ca4f89}.member-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.member-card{--c:#ff78ae;display:flex;align-items:center;justify-content:space-between;gap:6px;min-width:0;border:1px solid #f1ccdc;background:var(--panel);color:var(--text);border-radius:15px;padding:8px 9px;min-height:42px}.member-card.selected{border-color:var(--c);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--c) 35%,transparent)}.member-card.favorite .name:before{content:"★ ";color:#ffc83d}.name{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.check{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1px solid #efcad9;color:transparent;background:#fff}.selected .check{background:var(--c);border-color:var(--c);color:white}.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.tiny{font-size:10px;color:var(--muted)}.calendar-wrap{overflow:hidden;margin-top:14px;scroll-margin-top:8px}.calendar-title{text-align:center;padding:13px 8px 10px}.calendar-title b{display:block;font-size:19px;color:#d65490}.calendar-title small{font-size:10px;color:var(--muted)}.legend{display:flex;flex-wrap:wrap;gap:6px;padding:0 10px 10px}.legend span{padding:6px 10px;border-radius:999px;background:#fff0f6;border:1px solid #f0cadd;font-size:10px;font-weight:900}.hidden{display:none!important}.weekdays,.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}.weekdays div{padding:7px 0;text-align:center;font-size:12px;font-weight:900;background:#fff7fb;border-top:1px solid var(--line);border-right:1px solid var(--line)}.dark .weekdays div{background:#392432}.day{min-width:0;height:88px;padding:3px;overflow:hidden;background:var(--panel);border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);cursor:pointer}.day.empty{opacity:.35}.day.closed{background:repeating-linear-gradient(135deg,#fff0f2,#fff0f2 7px,#ffe2e7 7px,#ffe2e7 14px)}.dark .day.closed{background:#4d2a34}.day.today{box-shadow:inset 0 0 0 3px #ff8ab8}.day.common{background:linear-gradient(180deg,#fffdf1,#fff2b8);box-shadow:inset 0 0 0 2px #ffd75e}.num{font-size:11px;font-weight:900}.event{font-size:6.7px;line-height:1.08;font-weight:900;color:#e25697;margin:1px 0 3px}.shift{--c:#ff78ae;text-align:center;margin:2px 0;padding:3px 2px;border-radius:6px;background:var(--c);color:#fff;font-size:7px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.next-cards{display:flex;gap:8px;overflow:auto}.next-card{min-width:170px;background:#fff7fb;border:1px solid #f0cadd;border-radius:18px;padding:12px}.dark .next-card{background:#3b2634}.next-card b{color:#d65391}.next-date{font-size:18px;font-weight:900;color:#d65391;margin:6px 0}.modal{position:fixed;inset:0;z-index:100;display:grid;place-items:end center}.backdrop{position:absolute;inset:0;background:rgba(87,43,66,.4)}.modal-card{position:relative;width:min(100%,780px);max-height:82vh;overflow:auto;background:var(--panel);border-radius:28px 28px 0 0;padding:22px 18px}.close{position:fixed;top:16px;right:16px;width:48px;height:48px;border-radius:50%;border:2px solid #efc6d8;background:#fff;color:#c84f87;font-size:30px;z-index:999}.modal-members{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.person{border:1px solid #f0cadd;background:#fff7fb;border-radius:16px;padding:10px}.dark .person{background:#3b2634}.person b{display:block;color:#d65391}.person span{font-size:10px}.reserve{display:block;text-align:center;text-decoration:none;color:#fff;font-weight:900;padding:14px;border-radius:18px;background:linear-gradient(135deg,#ff72ad,#d96ee7)}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(90px);background:#fff;color:#b34c7c;border:1px solid #f0c7d9;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:900;transition:.25s;z-index:200}.toast.show{transform:translateX(-50%) translateY(0)}@media(max-width:430px){.member-card{padding:7px 8px}.name{font-size:11px}.day{height:83px;padding:2px}.event{font-size:6.1px}.shift{font-size:6.7px}}
-</style></head><body><main><header class="hero"><div class="logo">Super <strong>Spark</strong> Tokyo</div><h1>出演メンバーカレンダー</h1><p>会いたい子を選ぶと、共演日・次の出演・残り回数まで分かるよ♡</p></header>
-<section class="panel"><div class="toolbar"><div class="month-nav"><button id="prev" class="btn">‹</button><div id="monthLabel" class="month-label"></div><button id="next" class="btn">›</button></div><button id="dark" class="btn">☾</button><button id="install" class="btn hidden">アプリ追加</button></div></section>
-<section class="panel"><span class="eyebrow">MONTH SUMMARY</span><h2>今月の状況</h2><div class="summary"><div><b id="todayCount">0</b><span>今日会える子</span></div><div><b id="eventCount">0</b><span>イベント日</span></div><div><b id="selectedCount">0</b><span>選択中</span></div></div><div id="todayList" class="today-list"></div></section>
-<section class="panel"><div class="section-head"><div><span class="eyebrow">MEMBER SELECT</span><h2>会いたい女の子を選んでね♡</h2></div><button id="clear" class="btn">すべてクリア</button></div><div id="members" class="member-grid"></div><div class="actions"><button id="saveFav" class="btn">選択中をお気に入り</button><button id="loadFav" class="btn">お気に入りを選択</button></div><p class="tiny">★はお気に入り。選んだ全員が出演する日は金色です。</p></section>
-<section id="calendarSection" class="calendar-wrap"><div class="calendar-title"><b id="calTitle"></b><small id="summaryText"></small></div><div id="legend" class="legend hidden"></div><div class="weekdays"><div>日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div>土</div></div><div id="calendar" class="calendar"></div></section>
-<section id="nextSection" class="panel hidden"><span class="eyebrow">NEXT APPEARANCE</span><h2>次いつ会える？</h2><div id="nextCards" class="next-cards"></div></section></main>
-<div id="modal" class="modal hidden"><div class="backdrop"></div><div class="modal-card"><button id="close" class="close">×</button><div class="eyebrow">TODAY'S MEMBERS</div><h2 id="modalTitle"></h2><div id="modalEvent" class="event" style="font-size:12px"></div><div id="modalMembers" class="modal-members"></div><a class="reserve" href="https://superspark.tokyo/booking/" target="_blank">💖 予約はこちら</a></div></div><div id="toast" class="toast"></div>
-<script>const MONTHS={"2026-07":{"year":2026,"month":7,"members":{"じゅんな":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","6":"1・2・3部","9":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","31":"1・2・3部","25":"1・2・3部","30":"1・2・3部"},"まい":{"2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","6":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","15":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","19":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","29":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"えいか":{"1":"1・2部","2":"1・2・3部","3":"1・2部","5":"1・2部","6":"1・2部","7":"1・2・3部","9":"1・2・3部","10":"1・2部","12":"1・2・3部","14":"1・2部","15":"1・2部","16":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2部"},"さく":{"2":"1・2・3部","3":"1・2・3部","6":"1・2・3部","7":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","28":"1・2・3部","29":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"さつき":{"2":"2・3部","3":"2・3部","4":"1・2・3部","6":"2・3部","7":"2・3部","9":"2・3部","10":"2・3部","11":"1・2・3部","12":"1・2・3部","14":"2・3部","15":"2・3部","17":"2・3部","19":"1・2・3部","20":"2・3部","21":"2・3部","22":"2・3部","24":"2・3部","25":"1・2・3部","28":"2・3部","29":"2・3部","31":"2・3部"},"KAHO":{"3":"1・2・3部","4":"1・2・3部","5":"1・2部","7":"1・2・3部","9":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2部","15":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","19":"1・2・3部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","28":"1・2・3部","31":"1・2・3部"},"しずく":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","15":"1・2・3部","16":"1・2・3部","17":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","25":"2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"あきな":{"3":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"あやね":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","5":"3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","28":"1・2・3部","29":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"おすず":{"5":"1・2・3部","6":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"みお":{"2":"1・2・3部","3":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","31":"1・2・3部"},"MOKA":{"2":"1・2・3部","3":"1・2・3部","5":"1・2部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","19":"1・2・3部","20":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"うな":{"3":"1・2部","4":"1・2・3部","6":"1・2・3部","7":"1・2・3部","9":"1・2部","11":"1・2部","13":"1・2・3部","14":"1・2・3部","17":"1・2部","18":"1・2部","20":"1・2・3部","23":"1・2部","26":"1・2部","28":"1・2・3部","29":"1・2・3部","31":"1・2部","21":"1・2・3部","25":"1・2部"},"おはぎ":{"1":"1・2・3部","6":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","23":"1・2・3部","24":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"ことは":{"2":"1・2部","3":"1・2部","4":"1・2部","7":"1・2部","9":"1・2部","10":"1・2部","11":"1・2部","14":"1・2部","16":"1・2部","17":"1・2部","18":"1・2部","21":"1・2部","23":"1・2部","24":"1・2部","25":"1・2部","28":"1・2部","30":"1・2部","31":"1・2部"},"あも":{"2":"1・2・3部","3":"1・2部","4":"1・2部","5":"1・2・3部","9":"1・2・3部","10":"1・2部","11":"1・2部","12":"1・2・3部","16":"1・2・3部","17":"1・2部","18":"1・2部","23":"1・2・3部","24":"1・2部","25":"1・2部","26":"1・2・3部","30":"1・2・3部","31":"1・2部"},"うさ":{"1":"1・2部","3":"1・2部","4":"1・2部","7":"1・2部","9":"1・2部","10":"1・2部","12":"1・2部","14":"1・2部","15":"1・2部","21":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","28":"1・2部","30":"1・2部","31":"1・2部","18":"1・2部"},"ANNA":{"1":"選抜出張","2":"1・2・3部","3":"1・2・3部","7":"1・2・3部","8":"1・2・3部","11":"1・2・3部","12":"1・2・3部","14":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","30":"1・2・3部"},"りあん":{"1":"1・2・3部","3":"1・2・3部","4":"1・2・3部","6":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","15":"1・2・3部","17":"1・2・3部","20":"1・2・3部","24":"1・2・3部","25":"1・2・3部","29":"1・2・3部","30":"1・2・3部","22":"1・2・3部"},"かぐや":{"3":"1・2部","5":"1・2部","6":"1・2部","9":"1・2部","10":"1・2部","12":"1・2部","16":"1・2部","19":"1・2部","20":"1・2部","23":"1・2部","25":"1・2部","26":"1・2部","29":"1・2部","31":"1・2部"},"Sally":{"2":"1・2部","4":"1・2部","7":"1・2部","9":"1・2部","12":"2・3部","14":"1・2部","16":"1・2部","20":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","29":"1・2部","31":"1・2部"},"うらら":{"2":"選抜出張","3":"1・2部","7":"1・2・3部","15":"1・2部","17":"1・2部","19":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","27":"1・2部","29":"1・2部","30":"1・2部"},"れい":{"19":"1・2部","20":"1・2部","21":"1・2部","22":"1・2部","23":"1・2部","24":"1・2部","25":"1・2部","26":"1・2部","27":"1・2部","28":"1・2部","29":"1・2部","31":"1・2部"},"あおい":{"19":"1・2部","21":"1・2部","22":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","27":"1・2部","28":"1・2部","29":"1・2部","30":"1・2部","31":"1・2部"},"YUU":{"19":"1・2部","21":"1・2部","23":"1・2部","25":"1・2部","26":"1・2部","28":"1・2部","30":"1・2部"},"ひかり":{"4":"1・2・3部","5":"1・2・3部","11":"1・2・3部","12":"1・2・3部","18":"1・2・3部","19":"1・2・3部","25":"1・2・3部"},"みさき":{"4":"1・2部","9":"1・2部","10":"1・2部","16":"1・2・3部","17":"1・2・3部","25":"1・2部"},"まり":{"12":"1・2部","20":"1・2部","26":"1・2部"},"せりな":{},"つきの":{},"りりか":{}},"events":{"1":["ワールドサッカー"],"2":["ワールドサッカー"],"3":["ワールドサッカー"],"4":["ワールドサッカー"],"5":["ワールドサッカー"],"6":["ワールドサッカー"],"7":["七夕祭り（浴衣）","Guest 深田えいみ"],"8":["ワールドサッカー"],"9":["ワールドサッカー","じゅり6周年"],"10":["ワールドサッカー"],"11":["ワールドサッカー"],"12":["とし生誕祭","ワールドサッカー"],"13":["浴衣イベント"],"14":["浴衣イベント"],"15":["浴衣イベント"],"16":["みらん生誕祭"],"17":["浴衣イベント"],"18":["浴衣イベント"],"19":["新人デビュー","浴衣イベント"],"20":["りりか生誕祭"],"21":["ヴィンテージT／アニメ"],"22":["Guest 美谷朱音","ヴィンテージT／アニメ"],"23":[],"24":[],"25":["Guest れいな寿司"],"26":["夏祭り（浴衣）"],"27":["夏祭り（浴衣）"],"28":["夏祭り（浴衣）"],"29":["夏祭り（浴衣）"],"30":["夏祭り（浴衣）"],"31":["夏祭り（浴衣）"]}},"2026-08":{"year":2026,"month":8,"members":{"じゅんな":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","8":"1・2・3部","9":"1・2・3部","14":"1・2部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"まい":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","6":"1・2・3部","7":"1・2部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2部","21":"1・2部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"えいか":{"1":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2部","6":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","13":"1・2部","15":"1・2・3部","16":"1・2・3部","20":"1・2・3部","21":"1・2部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2部","29":"1・2・3部","31":"1・2・3部"},"さく":{"2":"1・2・3部","3":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","8":"1・2部","11":"1・2・3部","13":"1・2部","14":"1・2部","15":"1・2・3部","16":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","25":"1・2・3部","26":"1・2・3部","27":"1・2・3部"},"さつき":{"1":"1・2・3部","2":"1・2・3部","4":"2・3部","6":"2・3部","7":"2・3部","8":"1・2・3部","10":"2・3部","11":"1・2・3部","12":"2・3部","15":"1・2・3部","16":"1・2・3部","22":"1・2・3部","23":"1・2・3部","27":"2・3部","28":"2・3部","29":"1・2・3部"},"KAHO":{"2":"2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","11":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","21":"1・2・3部","22":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"しずく":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","13":"1・2・3部","14":"1・2・3部","15":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","24":"1・2・3部","27":"1・2・3部","28":"1・2・3部","31":"1・2部"},"あきな":{"1":"1・2・3部","3":"1・2・3部","4":"1・2・3部","6":"1・2・3部","7":"1・2・3部","10":"1・2・3部","11":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2部","25":"1・2・3部","28":"1・2・3部","31":"1・2・3部"},"あやね":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2部","8":"1・2部","9":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"おすず":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","25":"1・2・3部","26":"1・2・3部","29":"1・2・3部"},"みお":{"1":"1・2・3部","3":"1・2・3部","6":"1・2・3部","7":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","13":"1・2・3部","14":"1・2・3部","15":"1・2・3部","18":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"MOKA":{"2":"1・2・3部","4":"1・2・3部","6":"1・2・3部","8":"3部 PartyOn","9":"2・3部","12":"1・2・3部","13":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"うな":{"1":"1・2部","2":"1・2部","6":"1・2部","7":"1・2・3部","10":"1・2・3部","11":"1・2・3部","15":"1・2部","16":"1・2・3部","18":"1・2・3部","21":"1・2部","22":"1・2部","23":"1・2部","25":"1・2・3部","26":"1・2・3部","29":"1・2部","31":"1・2・3部"},"おはぎ":{"2":"1・2・3部","3":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"2・3部","19":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"ことは":{"1":"1・2部","4":"1・2部","6":"1・2部","7":"1・2部","8":"1・2部","11":"1・2部","13":"1・2部","14":"1・2部","15":"1・2部","19":"1・2部","20":"1・2部","21":"1・2部","22":"1・2部","25":"1・2部","29":"1・2部"},"あも":{"1":"1・2・3部","2":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"うさ":{"1":"1・2部","3":"1・2部","4":"1・2部","5":"1・2部","12":"1・2部","18":"1・2部","19":"1・2部","20":"1・2部","25":"1・2部","29":"1・2部"},"ANNA":{"2":"2・3部","7":"1・2・3部","8":"1・2・3部","12":"1・2・3部","14":"1・2部","18":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"りあん":{"1":"1・2・3部","3":"1・2部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部"},"かぐや":{"3":"1・2部","8":"2部のみ","9":"1・2部","13":"1・2部","15":"1・2部","19":"1・2部","21":"1・2部","23":"1・2部","29":"1・2部"},"Sally":{"2":"1・2部","5":"1・2部","7":"1・2部","9":"2・3部","11":"1・2部","13":"1・2部","16":"1・2部","18":"1・2部","20":"1・2部","22":"1・2部","24":"1・2部","26":"1・2部","28":"1・2部","31":"1・2部"},"うらら":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","6":"1・2・3部","7":"1・2・3部","8":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部"},"れい":{"1":"1・2部","2":"1・2部","4":"1・2部","6":"1・2部","7":"1・2部","8":"1・2部","9":"1・2部","10":"1・2部","11":"1・2部","13":"1・2部","14":"1・2部","15":"1・2部","18":"1・2部","19":"1・2部","21":"1・2部","22":"1・2部","26":"1・2部","27":"1・2部","28":"1・2部","29":"1・2部","31":"1・2部"},"あおい":{"1":"1・2部","2":"1・2部","3":"1・2部","6":"1・2部","8":"1・2部","9":"1・2部","10":"1・2部","11":"1・2部","14":"1・2部","15":"1・2部","16":"1・2部","19":"1・2部","20":"1・2部","21":"1・2部","22":"1・2部","24":"1・2部","26":"1・2部","27":"1・2部"},"YUU":{"1":"1・2部","2":"1・2部","4":"1・2部","8":"1・2部","9":"1・2部","11":"1・2部","13":"1・2部","15":"1・2部","16":"1・2部","18":"1・2部","20":"1・2部","22":"1・2部","23":"1・2部","25":"1・2部","27":"1・2部"},"ひかり":{"2":"1・2・3部","8":"1・2・3部","9":"1・2・3部","16":"1・2・3部","22":"1・2・3部","23":"1・2・3部","29":"1・2・3部"},"みさき":{},"まり":{"14":"1・2部","23":"1・2部"}},"events":{"1":["夏祭り"],"2":["学園"],"3":["学園"],"4":["学園"],"5":["チャイナ"],"6":["チャイナ"],"7":[],"8":["パリオン3部・カレンBD"],"9":["アニコス"],"10":["アニコス"],"11":["アニコス"],"12":["夏祭り"],"13":["夏祭り"],"14":["夏祭り"],"15":["夏祭り"],"16":["NEXT STAGE"],"17":["店休"],"18":["ヴィンテージバンド"],"19":["ヴィンテージバンド"],"20":["パリオン9周年"],"21":["パリオン9周年"],"22":["パリオン9周年"],"23":["NEXT STAGE"],"24":["ピンクパーティ"],"25":["ピンクパーティ"],"26":["ヴィンテージ夢の国"],"27":["ヴィンテージ夢の国"],"28":[],"29":[],"30":["貸切り（店休）"],"31":[]},"closedDays":[17,30]}};const keys=Object.keys(MONTHS);const state={key:'2026-08',selected:new Set(),favorites:new Set(JSON.parse(localStorage.getItem('sparkFavorites')||'[]'))};const jp=['日','月','火','水','木','金','土'];const colors=['#ff78ae','#a76de8','#55b7e9','#ff9f43','#54c89c','#f06f6f','#8f8cff','#d77cc8'];let promptInstall=null;const d=()=>MONTHS[state.key],ym=()=>state.key.split('-').map(Number),c=n=>colors[Math.max(0,[...state.selected].indexOf(n))%colors.length];
-function render(){header();memberList();cal();nextCards();summary()}function header(){const[y,m]=ym();monthLabel.textContent=`${y}年${m}月`;calTitle.textContent=`🎀 ${y}年 ${m}月 🎀`;prev.disabled=keys.indexOf(state.key)===0;next.disabled=keys.indexOf(state.key)===keys.length-1}function memberList(){members.innerHTML='';Object.entries(d().members).sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length).forEach(([n,s])=>{const b=document.createElement('button');b.className='member-card'+(state.selected.has(n)?' selected':'')+(state.favorites.has(n)?' favorite':'');b.style.setProperty('--c',c(n));b.innerHTML=`<span class="name">${n}</span><span class="check">✓</span>`;b.onclick=()=>{state.selected.has(n)?state.selected.delete(n):state.selected.add(n);render();if(state.selected.size)setTimeout(()=>calendarSection.scrollIntoView({behavior:'smooth'}),60)};b.oncontextmenu=e=>{e.preventDefault();state.favorites.has(n)?state.favorites.delete(n):state.favorites.add(n);save();memberList()};members.appendChild(b)})}
-function start(){const now=new Date(),[y,m]=ym();return now.getFullYear()===y&&now.getMonth()+1===m?now.getDate():1}function nextMap(){const o={},s=start();state.selected.forEach(n=>{const a=Object.keys(d().members[n]||{}).map(Number).filter(x=>x>=s).sort((a,b)=>a-b);if(a.length)o[n]=a[0]});return o}function cal(){calendar.innerHTML='';const[y,m]=ym(),first=new Date(y,m-1,1).getDay(),days=new Date(y,m,0).getDate(),sel=[...state.selected],now=new Date();for(let i=0;i<first;i++)calendar.insertAdjacentHTML('beforeend','<div class="day empty"></div>');for(let day=1;day<=days;day++){const cell=document.createElement('div');cell.className='day';if((d().closedDays||[]).includes(day))cell.classList.add('closed');if(now.getFullYear()===y&&now.getMonth()+1===m&&now.getDate()===day)cell.classList.add('today');const present=sel.filter(n=>d().members[n]?.[String(day)]);if(sel.length>1&&present.length===sel.length)cell.classList.add('common');cell.innerHTML=`<div class="num">${day}</div>`;(d().events[String(day)]||[]).forEach(e=>cell.insertAdjacentHTML('beforeend',`<div class="event">${e}</div>`));present.forEach(n=>cell.insertAdjacentHTML('beforeend',`<div class="shift" style="--c:${c(n)}">${n}</div>`));cell.onclick=()=>openModal(day);calendar.appendChild(cell)}legend.innerHTML=sel.map(n=>`<span>${n}</span>`).join('');legend.classList.toggle('hidden',!sel.length);selectedCount.textContent=sel.length;summaryText.textContent=sel.length?`${sel.length}人選択中・全員共演日は金色`:'女の子を選ぶと出演日が表示されます'}
-function nextCards(){nextCardsEl=document.getElementById('nextCards');nextCardsEl.innerHTML='';if(!state.selected.size){nextSection.classList.add('hidden');return}nextSection.classList.remove('hidden');const map=nextMap(),[y,m]=ym(),s=start();state.selected.forEach(n=>{const day=map[n],sched=d().members[n],remain=Object.keys(sched).map(Number).filter(x=>x>=s).length;nextCardsEl.insertAdjacentHTML('beforeend',day?`<div class="next-card"><b>${n}</b><div class="next-date">${m}/${day}（${jp[new Date(y,m-1,day).getDay()]}）</div><div>${sched[String(day)]}</div><small>今月あと${remain}回会える♡</small></div>`:`<div class="next-card"><b>${n}</b><div class="next-date">今月は終了</div></div>`)})}
-function summary(){const[y,m]=ym(),now=new Date(),day=now.getFullYear()===y&&now.getMonth()+1===m?now.getDate():null,a=day?Object.entries(d().members).filter(([_,s])=>s[String(day)]).map(([n])=>n):[];todayCount.textContent=a.length;eventCount.textContent=Object.values(d().events).filter(x=>x.length).length;todayList.innerHTML=a.length?a.map(n=>`<span class="chip">${n}</span>`).join(''):`<span class="tiny">${day?'今日は出演データなし':'この月は今日ではありません'}</span>`}function openModal(day){const[y,m]=ym(),a=Object.entries(d().members).filter(([_,s])=>s[String(day)]);modalTitle.textContent=`${m}/${day}（${jp[new Date(y,m-1,day).getDay()]}）の出演メンバー`;modalEvent.textContent=(d().events[String(day)]||[]).join(' / ');modalMembers.innerHTML=a.length?a.map(([n,s])=>`<div class="person"><b>${n}</b><span>${s[String(day)]}</span></div>`).join(''):'<div class="tiny">この日の出演データはありません</div>';modal.classList.remove('hidden')}function save(){localStorage.setItem('sparkFavorites',JSON.stringify([...state.favorites]))}function toastMsg(x){toast.textContent=x;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1500)}
-clear.onclick=()=>{state.selected.clear();render()};prev.onclick=()=>move(-1);next.onclick=()=>move(1);function move(x){const i=keys.indexOf(state.key)+x;if(i<0||i>=keys.length)return toastMsg('この月のデータはまだないよ');state.key=keys[i];state.selected=new Set([...state.selected].filter(n=>d().members[n]));render()}dark.onclick=()=>{document.body.classList.toggle('dark');localStorage.setItem('sparkDark',document.body.classList.contains('dark')?'1':'0')};saveFav.onclick=()=>{state.selected.forEach(n=>state.favorites.add(n));save();memberList();toastMsg('お気に入りに保存したよ♡')};loadFav.onclick=()=>{state.selected=new Set([...state.favorites].filter(n=>d().members[n]));render()};close.onclick=()=>modal.classList.add('hidden');document.querySelector('.backdrop').onclick=()=>modal.classList.add('hidden');window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptInstall=e;install.classList.remove('hidden')});install.onclick=async()=>{if(promptInstall){promptInstall.prompt();await promptInstall.userChoice;promptInstall=null;install.classList.add('hidden')}};if(localStorage.getItem('sparkDark')==='1')document.body.classList.add('dark');if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});render();</script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff1f7">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Super Spark Tokyo 出演予定</title>
+<style>
+:root{
+  --pink:#ff8a00;
+  --pink2:#ffc300;
+  --soft:#fff8e8;
+  --soft2:#fff0c7;
+  --line:#ffd56a;
+  --text:#3c2a12;
+  --muted:#9b7330;
+  --white:#ffffff;
+  --sun:#ff5a36;
+  --sat:#c78a00;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+  background:
+    radial-gradient(circle at 8% 4%,#fffdf5 0 8%,transparent 23%),
+    radial-gradient(circle at 92% 7%,#fff8dc 0 9%,transparent 25%),
+    linear-gradient(180deg,#fffdf6 0%,#fff5d9 46%,#ffe7a8 100%);
+  min-height:100vh;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.62;
+  background:
+    radial-gradient(ellipse at 7% 17%,#fff 0 7%,transparent 7.5%),
+    radial-gradient(ellipse at 16% 17%,#fff 0 8%,transparent 8.5%),
+    radial-gradient(ellipse at 91% 15%,#fff 0 8%,transparent 8.5%),
+    radial-gradient(ellipse at 80% 16%,#fff 0 7%,transparent 7.5%);
+}
+button{font:inherit}
+main{width:min(100%,850px);margin:auto;padding:14px 14px 56px}
+.hero{text-align:center;padding:2px 8px 24px}
+.brand{
+  display:inline-block;
+  color:#ff8a00;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:900;
+  line-height:.75;
+  letter-spacing:-.06em;
+  text-shadow:0 2px 0 #fff7d8,0 0 22px rgba(255,187,0,.28);
+  margin-top:8px;
+}
+.brand .super{display:block;font-size:clamp(44px,13vw,88px)}
+.brand .spark{display:block;font-size:clamp(76px,22vw,150px);margin-top:8px}
+.brand .tokyo{display:block;font-size:clamp(38px,10vw,70px);margin-top:5px}
+.title-pill{
+  width:max-content;
+  max-width:100%;
+  margin:22px auto 10px;
+  padding:12px 24px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#fff5b8,#ffd86f);
+  color:var(--pink);
+  font-size:clamp(28px,7vw,52px);
+  font-weight:1000;
+  box-shadow:0 10px 26px rgba(255,159,0,.18),0 0 24px rgba(255,210,74,.22);
+}
+.subtitle{
+  margin:0;
+  font-size:clamp(13px,3.3vw,21px);
+  color:#9c6c7d;
+  font-weight:700;
+}
+.subtitle strong{color:#151515}
+.card{
+  background:rgba(255,255,255,.9);
+  border:2px solid #ffd76a;
+  border-radius:34px;
+  box-shadow:0 16px 38px rgba(218,139,0,.12),0 0 24px rgba(255,215,90,.12);
+  backdrop-filter:blur(12px);
+}
+.month-card{
+  display:grid;
+  grid-template-columns:64px 1fr 64px;
+  align-items:center;
+  gap:8px;
+  padding:18px;
+  margin-bottom:18px;
+}
+.round-btn{
+  width:58px;height:58px;border-radius:50%;
+  border:2px solid var(--line);
+  background:#fff;color:#df4a82;
+  font-size:32px;font-weight:900;
+  cursor:pointer;
+}
+.month-label{
+  text-align:center;
+  font-size:clamp(32px,8vw,58px);
+  font-weight:1000;
+  color:#050505;
+  letter-spacing:-.04em;
+}
+.selector{padding:20px 18px 22px}
+.selector-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+.selector-head h2{
+  margin:0;
+  color:var(--pink);
+  font-size:clamp(20px,5vw,34px);
+}
+.selector-actions{display:flex;gap:8px}
+.small-btn{
+  border:1.5px solid var(--line);
+  background:#fff8fb;
+  color:var(--pink);
+  border-radius:14px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+.member-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+.member{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  border:1.5px solid #ffd777;
+  border-radius:16px;
+  background:linear-gradient(180deg,#fffdf7,#fff7dc);
+  cursor:pointer;
+  color:#241a1e;
+  font-weight:900;
+}
+.member .heart{
+  color:var(--pink2);
+  font-size:21px;
+  flex:none;
+}
+.member .name{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:clamp(13px,3vw,18px);
+}
+.member.selected{
+  background:linear-gradient(135deg,#fff4b8,#ffd56a);
+  border-color:#ff9d00;
+  box-shadow:0 8px 18px rgba(255,157,0,.22),0 0 16px rgba(255,218,90,.24);
+}
+.member.selected .heart::before{content:"♥"}
+.member:not(.selected) .heart::before{content:"♡"}
+.cta{
+  width:100%;
+  margin:18px 0 0;
+  border:0;
+  border-radius:24px;
+  padding:18px 20px;
+  color:#fff;
+  background:linear-gradient(90deg,#ff8a00,#ffc400);
+  font-size:clamp(22px,5vw,34px);
+  font-weight:1000;
+  cursor:pointer;
+  box-shadow:0 14px 28px rgba(255,142,0,.28),0 0 22px rgba(255,211,63,.22);
+}
+.calendar-card{margin-top:24px;overflow:hidden}
+.calendar-head{text-align:center;padding:20px 14px 14px}
+.calendar-head h2{margin:0;color:var(--pink);font-size:25px}
+.calendar-head p{margin:7px 0 0;color:var(--muted);font-size:12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 14px}
+.legend span{
+  border-radius:999px;padding:6px 10px;background:#fff0f5;
+  border:1px solid #f4c4d5;color:#d7497d;font-size:11px;font-weight:900;
+}
+.weekdays,.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.weekdays div{
+  text-align:center;padding:8px 0;font-weight:900;background:#fff6cf;
+  border-top:1px solid var(--line);border-right:1px solid var(--line)
+}
+.weekdays .sun{color:var(--sun)} .weekdays .sat{color:var(--sat)}
+.day{
+  min-width:0;height:94px;padding:4px;overflow:hidden;position:relative;
+  background:#fff;border-top:1px solid var(--line);border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);cursor:pointer;
+}
+.day.empty{background:#fff9fb}
+.day.closed{
+  background:repeating-linear-gradient(135deg,#fff0f3,#fff0f3 8px,#ffe1e8 8px,#ffe1e8 16px)
+}
+.day.common{
+  background:linear-gradient(180deg,#fffce6,#fff1b5);
+  box-shadow:inset 0 0 0 2px #ffd55c
+}
+.day.today{box-shadow:inset 0 0 0 3px #ef3d78}
+.day-number{font-size:12px;font-weight:1000}
+.day:nth-child(7n+1) .day-number{color:var(--sun)}
+.day:nth-child(7n) .day-number{color:var(--sat)}
+.event{font-size:7px;line-height:1.1;color:#df4d82;font-weight:900;margin:2px 0}
+.shift{
+  margin:2px 0;padding:3px 2px;border-radius:6px;
+  background:linear-gradient(90deg,#ff9b00,#ffbd23);color:#fff;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:7px;font-weight:1000;
+}
+.next-wrap{padding:18px;margin-top:18px}
+.next-wrap h2{margin:0 0 12px;color:var(--pink)}
+.next-cards{display:flex;gap:10px;overflow:auto}
+.next-card{
+  min-width:180px;border:1px solid #ffd56a;border-radius:18px;
+  background:#fff9e9;padding:14px
+}
+.next-card b{color:var(--pink);font-size:17px}
+.next-date{font-size:22px;font-weight:1000;margin:7px 0}
+.next-card small{color:var(--muted)}
+.modal{
+  position:fixed;inset:0;z-index:100;display:grid;place-items:end center
+}
+.modal.hidden{display:none}
+.backdrop{position:absolute;inset:0;background:rgba(63,29,43,.42);backdrop-filter:blur(5px)}
+.modal-card{
+  position:relative;width:min(100%,850px);max-height:84vh;overflow:auto;
+  background:#fff9e9;border-radius:30px 30px 0 0;padding:24px 18px 28px;
+  box-shadow:0 -20px 60px rgba(197,57,108,.25)
+}
+.close{
+  position:absolute;right:16px;top:14px;width:44px;height:44px;border-radius:50%;
+  border:1px solid #f2bdd0;background:#fff;color:var(--pink);font-size:28px
+}
+.modal-card h2{margin:0 54px 8px 0;color:var(--pink)}
+.modal-event{color:#d84c80;font-weight:900;margin-bottom:12px}
+.modal-members{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.modal-member{
+  border:1px solid #f3c4d4;background:#fff;border-radius:14px;padding:11px
+}
+.modal-member b{display:block;color:#d7477d}
+.modal-member span{font-size:11px;color:#76515f;font-weight:800}
+.reserve{
+  display:block;margin-top:16px;text-align:center;text-decoration:none;color:#fff;
+  background:linear-gradient(90deg,#ff8a00,#ffc400);border-radius:17px;
+  padding:14px;font-weight:1000
+}
+.hidden{display:none!important}
+.toast{
+  position:fixed;left:50%;bottom:20px;z-index:300;
+  transform:translate(-50%,100px);
+  background:#fff;color:#b86b00;border:1px solid #ffd36c;border-radius:999px;
+  padding:11px 16px;font-weight:900;transition:.25s
+}
+.toast.show{transform:translate(-50%,0)}
+body.modal-open{overflow:hidden}
+@media(max-width:600px){
+  main{padding:8px 7px 38px}
+  .hero{padding-bottom:18px}
+  .month-card{grid-template-columns:50px 1fr 50px;padding:13px}
+  .round-btn{width:48px;height:48px;font-size:26px}
+  .selector{padding:16px 10px 18px}
+  .selector-head{align-items:flex-start}
+  .selector-actions{flex-direction:column}
+  .small-btn{padding:8px 9px;font-size:11px}
+  .member-grid{gap:6px}
+  .member{padding:11px 8px;gap:6px}
+  .member .heart{font-size:17px}
+  .day{height:84px;padding:2px}
+  .event{font-size:6.2px}
+  .shift{font-size:6.4px}
+}
+
+/* Gold show-club theme */
+body::after{
+  content:"";
+  position:fixed;
+  inset:-20% -10%;
+  pointer-events:none;
+  z-index:-1;
+  background:
+    conic-gradient(from 205deg at 20% 0%,transparent 0 8deg,rgba(255,210,71,.12) 9deg 15deg,transparent 16deg 28deg),
+    conic-gradient(from 150deg at 80% 0%,transparent 0 9deg,rgba(255,159,0,.11) 10deg 17deg,transparent 18deg 31deg);
+  animation:showLights 7s ease-in-out infinite alternate;
+}
+@keyframes showLights{
+  from{transform:translateX(-1.5%) rotate(-1deg);opacity:.72}
+  to{transform:translateX(1.5%) rotate(1deg);opacity:1}
+}
+.hero{position:relative;overflow:hidden}
+.hero::before,.hero::after{
+  content:"✦";
+  position:absolute;
+  color:#ffc400;
+  font-size:28px;
+  filter:drop-shadow(0 0 8px rgba(255,180,0,.55));
+  animation:sparkle 1.7s ease-in-out infinite alternate;
+}
+.hero::before{left:9%;top:17%}
+.hero::after{right:10%;top:28%;animation-delay:.7s}
+@keyframes sparkle{
+  from{transform:scale(.75) rotate(0deg);opacity:.45}
+  to{transform:scale(1.18) rotate(18deg);opacity:1}
+}
+.brand{filter:drop-shadow(0 7px 14px rgba(255,140,0,.18))}
+.card{position:relative}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.46),transparent 25%,transparent 72%,rgba(255,232,140,.22));
+}
+.member,.small-btn,.round-btn,.cta{transition:.2s ease}
+.member:hover,.small-btn:hover,.round-btn:hover{transform:translateY(-2px)}
+.cta:hover{transform:translateY(-2px);filter:brightness(1.03)}
+.member.selected{animation:selectedGlow 1.5s ease-in-out infinite alternate}
+@keyframes selectedGlow{
+  from{box-shadow:0 8px 18px rgba(255,157,0,.18),0 0 10px rgba(255,218,90,.18)}
+  to{box-shadow:0 10px 24px rgba(255,142,0,.30),0 0 24px rgba(255,225,96,.38)}
+}
+.month-label,.calendar-head h2,.selector-head h2{
+  text-shadow:0 2px 0 #fff3bf,0 0 14px rgba(255,188,0,.18);
+}
+.day.common{animation:goldPulse 1.8s ease-in-out infinite alternate}
+@keyframes goldPulse{
+  from{box-shadow:inset 0 0 0 2px #ffd55c,0 0 5px rgba(255,195,0,.18)}
+  to{box-shadow:inset 0 0 0 2px #ffb000,0 0 18px rgba(255,195,0,.42)}
+}
+
+
+/* Per-member color coding */
+.member{
+  --member-strong:#ff9f0a;
+  --member-soft:#fff0d6;
+}
+.member.selected{
+  background:linear-gradient(135deg,var(--member-soft),#fff);
+  border-color:var(--member-strong);
+  box-shadow:
+    0 8px 18px color-mix(in srgb,var(--member-strong) 24%,transparent),
+    0 0 16px color-mix(in srgb,var(--member-strong) 18%,transparent);
+}
+.member.selected .heart,
+.member.selected .name{
+  color:var(--member-strong);
+}
+.shift{
+  --shift-strong:#ff9f0a;
+  --shift-soft:#fff0d6;
+  background:linear-gradient(90deg,var(--shift-strong),color-mix(in srgb,var(--shift-strong) 72%,white));
+  border:1px solid color-mix(in srgb,var(--shift-strong) 72%,#7a4b00);
+  box-shadow:0 2px 7px color-mix(in srgb,var(--shift-strong) 28%,transparent);
+}
+.legend span{
+  --legend-strong:#ff9f0a;
+  --legend-soft:#fff0d6;
+  background:var(--legend-soft);
+  border-color:color-mix(in srgb,var(--legend-strong) 48%,white);
+  color:var(--legend-strong);
+}
+
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="brand" aria-label="Super Spark Tokyo">
+      <span class="super">Super</span>
+      <span class="spark">Spark</span>
+      <span class="tokyo">Tokyo</span>
+    </div>
+    <div class="title-pill">♡ 出演予定 ♡</div>
+    <p class="subtitle">会いたい子を選ぶと、共演日・次の出演日・<strong>がわかります</strong></p>
+  </header>
+
+  <section class="card month-card">
+    <button id="prevBtn" class="round-btn" aria-label="前の月">‹</button>
+    <div id="monthLabel" class="month-label"></div>
+    <button id="nextBtn" class="round-btn" aria-label="次の月">›</button>
+  </section>
+
+  <section class="card selector">
+    <div class="selector-head">
+      <h2>✦ 出演する女の子を選ぼう</h2>
+      <div class="selector-actions">
+        <button id="allBtn" class="small-btn">すべて選択</button>
+        <button id="clearBtn" class="small-btn">すべて解除</button>
+      </div>
+    </div>
+    <div id="memberGrid" class="member-grid"></div>
+    <button id="calendarBtn" class="cta">✦ カレンダーを見る　›</button>
+  </section>
+
+  <section id="calendarSection" class="card calendar-card">
+    <div class="calendar-head">
+      <h2 id="calendarTitle"></h2>
+      <p id="selectedSummary">女の子を選ぶと出演日が表示されます</p>
+    </div>
+    <div id="legend" class="legend hidden"></div>
+    <div class="weekdays">
+      <div class="sun">日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div class="sat">土</div>
+    </div>
+    <div id="calendar" class="calendar"></div>
+  </section>
+
+  <section id="nextSection" class="card next-wrap hidden">
+    <h2>次の出演日</h2>
+    <div id="nextCards" class="next-cards"></div>
+  </section>
+</main>
+
+<div id="dayModal" class="modal hidden" aria-hidden="true">
+  <div class="backdrop"></div>
+  <div class="modal-card">
+    <button id="closeBtn" class="close">×</button>
+    <h2 id="modalTitle"></h2>
+    <div id="modalEvent" class="modal-event"></div>
+    <div id="modalMembers" class="modal-members"></div>
+    <a class="reserve" href="https://superspark.tokyo/booking/" target="_blank" rel="noopener noreferrer">✦ 予約はこちら</a>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const MONTHS={"2026-07":{"year":2026,"month":7,"members":{"じゅんな":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","6":"1・2・3部","9":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","31":"1・2・3部","25":"1・2・3部","30":"1・2・3部"},"まい":{"2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","6":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","15":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","19":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","29":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"えいか":{"1":"1・2部","2":"1・2・3部","3":"1・2部","5":"1・2部","6":"1・2部","7":"1・2・3部","9":"1・2・3部","10":"1・2部","12":"1・2・3部","14":"1・2部","15":"1・2部","16":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2部"},"さく":{"2":"1・2・3部","3":"1・2・3部","6":"1・2・3部","7":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","28":"1・2・3部","29":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"さつき":{"2":"2・3部","3":"2・3部","4":"1・2・3部","6":"2・3部","7":"2・3部","9":"2・3部","10":"2・3部","11":"1・2・3部","12":"1・2・3部","14":"2・3部","15":"2・3部","17":"2・3部","19":"1・2・3部","20":"2・3部","21":"2・3部","22":"2・3部","24":"2・3部","25":"1・2・3部","28":"2・3部","29":"2・3部","31":"2・3部"},"KAHO":{"3":"1・2・3部","4":"1・2・3部","5":"1・2部","7":"1・2・3部","9":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2部","15":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","19":"1・2・3部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","28":"1・2・3部","31":"1・2・3部"},"しずく":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","15":"1・2・3部","16":"1・2・3部","17":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","25":"2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"あきな":{"3":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"あやね":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","5":"3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","28":"1・2・3部","29":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"おすず":{"5":"1・2・3部","6":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"みお":{"2":"1・2・3部","3":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","31":"1・2・3部"},"MOKA":{"2":"1・2・3部","3":"1・2・3部","5":"1・2部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","14":"1・2・3部","16":"1・2・3部","17":"1・2・3部","19":"1・2・3部","20":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"うな":{"3":"1・2部","4":"1・2・3部","6":"1・2・3部","7":"1・2・3部","9":"1・2部","11":"1・2部","13":"1・2・3部","14":"1・2・3部","17":"1・2部","18":"1・2部","20":"1・2・3部","23":"1・2部","26":"1・2部","28":"1・2・3部","29":"1・2・3部","31":"1・2部","21":"1・2・3部","25":"1・2部"},"おはぎ":{"1":"1・2・3部","6":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","17":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2・3部","23":"1・2・3部","24":"1・2・3部","27":"1・2・3部","28":"1・2・3部","30":"1・2・3部","31":"1・2・3部"},"ことは":{"2":"1・2部","3":"1・2部","4":"1・2部","7":"1・2部","9":"1・2部","10":"1・2部","11":"1・2部","14":"1・2部","16":"1・2部","17":"1・2部","18":"1・2部","21":"1・2部","23":"1・2部","24":"1・2部","25":"1・2部","28":"1・2部","30":"1・2部","31":"1・2部"},"あも":{"2":"1・2・3部","3":"1・2部","4":"1・2部","5":"1・2・3部","9":"1・2・3部","10":"1・2部","11":"1・2部","12":"1・2・3部","16":"1・2・3部","17":"1・2部","18":"1・2部","23":"1・2・3部","24":"1・2部","25":"1・2部","26":"1・2・3部","30":"1・2・3部","31":"1・2部"},"うさ":{"1":"1・2部","3":"1・2部","4":"1・2部","7":"1・2部","9":"1・2部","10":"1・2部","12":"1・2部","14":"1・2部","15":"1・2部","21":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","28":"1・2部","30":"1・2部","31":"1・2部","18":"1・2部"},"ANNA":{"1":"選抜出張","2":"1・2・3部","3":"1・2・3部","7":"1・2・3部","8":"1・2・3部","11":"1・2・3部","12":"1・2・3部","14":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","30":"1・2・3部"},"りあん":{"1":"1・2・3部","3":"1・2・3部","4":"1・2・3部","6":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","15":"1・2・3部","17":"1・2・3部","20":"1・2・3部","24":"1・2・3部","25":"1・2・3部","29":"1・2・3部","30":"1・2・3部","22":"1・2・3部"},"かぐや":{"3":"1・2部","5":"1・2部","6":"1・2部","9":"1・2部","10":"1・2部","12":"1・2部","16":"1・2部","19":"1・2部","20":"1・2部","23":"1・2部","25":"1・2部","26":"1・2部","29":"1・2部","31":"1・2部"},"Sally":{"2":"1・2部","4":"1・2部","7":"1・2部","9":"1・2部","12":"2・3部","14":"1・2部","16":"1・2部","20":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","29":"1・2部","31":"1・2部"},"うらら":{"2":"選抜出張","3":"1・2部","7":"1・2・3部","15":"1・2部","17":"1・2部","19":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","27":"1・2部","29":"1・2部","30":"1・2部"},"れい":{"19":"1・2部","20":"1・2部","21":"1・2部","22":"1・2部","23":"1・2部","24":"1・2部","25":"1・2部","26":"1・2部","27":"1・2部","28":"1・2部","29":"1・2部","31":"1・2部"},"あおい":{"19":"1・2部","21":"1・2部","22":"1・2部","23":"1・2部","24":"1・2部","26":"1・2部","27":"1・2部","28":"1・2部","29":"1・2部","30":"1・2部","31":"1・2部"},"YUU":{"19":"1・2部","21":"1・2部","23":"1・2部","25":"1・2部","26":"1・2部","28":"1・2部","30":"1・2部"},"ひかり":{"4":"1・2・3部","5":"1・2・3部","11":"1・2・3部","12":"1・2・3部","18":"1・2・3部","19":"1・2・3部","25":"1・2・3部"},"まり":{"12":"1・2部","20":"1・2部","26":"1・2部"},"りりか":{},"せりな":{},"つきの":{}},"events":{"1":["ワールドサッカー"],"2":["ワールドサッカー"],"3":["ワールドサッカー"],"4":["ワールドサッカー"],"5":["ワールドサッカー"],"6":["ワールドサッカー"],"7":["七夕祭り（浴衣）","Guest 深田えいみ"],"8":["ワールドサッカー"],"9":["ワールドサッカー","じゅり6周年"],"10":["ワールドサッカー"],"11":["ワールドサッカー"],"12":["とし生誕祭","ワールドサッカー"],"13":["浴衣イベント"],"14":["浴衣イベント"],"15":["浴衣イベント"],"16":["みらん生誕祭"],"17":["浴衣イベント"],"18":["浴衣イベント"],"19":["新人デビュー","浴衣イベント"],"20":["りりか生誕祭"],"21":["ヴィンテージT／アニメ"],"22":["Guest 美谷朱音","ヴィンテージT／アニメ"],"23":[],"24":[],"25":["Guest れいな寿司"],"26":["夏祭り（浴衣）"],"27":["夏祭り（浴衣）"],"28":["夏祭り（浴衣）"],"29":["夏祭り（浴衣）"],"30":["夏祭り（浴衣）"],"31":["夏祭り（浴衣）"]}},"2026-08":{"year":2026,"month":8,"members":{"じゅんな":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","8":"1・2・3部","9":"1・2・3部","14":"1・2部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2部","21":"1・2・3部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"まい":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","6":"1・2・3部","7":"1・2部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2部","21":"1・2部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"えいか":{"1":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2部","6":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","13":"1・2部","15":"1・2・3部","16":"1・2・3部","20":"1・2・3部","21":"1・2部","22":"1・2・3部","24":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2部","29":"1・2・3部","31":"1・2・3部"},"さく":{"2":"1・2・3部","3":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","8":"1・2部","11":"1・2・3部","13":"1・2部","14":"1・2部","15":"1・2・3部","16":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","25":"1・2・3部","26":"1・2・3部","27":"1・2・3部"},"さつき":{"1":"1・2・3部","2":"1・2・3部","4":"2・3部","6":"2・3部","7":"2・3部","8":"1・2・3部","10":"2・3部","11":"1・2・3部","12":"2・3部","15":"1・2・3部","16":"1・2・3部","22":"1・2・3部","23":"1・2・3部","27":"2・3部","28":"2・3部","29":"1・2・3部"},"KAHO":{"2":"2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","10":"1・2・3部","11":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","21":"1・2・3部","22":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"しずく":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","13":"1・2・3部","14":"1・2・3部","15":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","24":"1・2・3部","27":"1・2・3部","28":"1・2・3部","31":"1・2部"},"あきな":{"1":"1・2・3部","3":"1・2・3部","4":"1・2・3部","6":"1・2・3部","7":"1・2・3部","10":"1・2・3部","11":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2部","25":"1・2・3部","28":"1・2・3部","31":"1・2・3部"},"あやね":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2部","8":"1・2部","9":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","20":"1・2・3部","21":"1・2部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"おすず":{"1":"1・2・3部","2":"1・2・3部","4":"1・2・3部","5":"1・2・3部","7":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","25":"1・2・3部","26":"1・2・3部","29":"1・2・3部"},"みお":{"1":"1・2・3部","3":"1・2・3部","6":"1・2・3部","7":"1・2・3部","8":"1・2・3部","10":"1・2・3部","11":"1・2・3部","13":"1・2・3部","14":"1・2・3部","15":"1・2・3部","18":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"MOKA":{"2":"1・2・3部","4":"1・2・3部","6":"1・2・3部","8":"3部 PartyOn","9":"2・3部","12":"1・2・3部","13":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"1・2・3部","19":"1・2・3部","20":"1・2・3部","22":"1・2・3部","23":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"うな":{"1":"1・2部","2":"1・2部","6":"1・2部","7":"1・2・3部","10":"1・2・3部","11":"1・2・3部","15":"1・2部","16":"1・2・3部","18":"1・2・3部","21":"1・2部","22":"1・2部","23":"1・2部","25":"1・2・3部","26":"1・2・3部","29":"1・2部","31":"1・2・3部"},"おはぎ":{"2":"1・2・3部","3":"1・2・3部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","10":"1・2・3部","11":"1・2・3部","12":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","18":"2・3部","19":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"ことは":{"1":"1・2部","4":"1・2部","6":"1・2部","7":"1・2部","8":"1・2部","11":"1・2部","13":"1・2部","14":"1・2部","15":"1・2部","19":"1・2部","20":"1・2部","21":"1・2部","22":"1・2部","25":"1・2部","29":"1・2部"},"あも":{"1":"1・2・3部","2":"1・2・3部","7":"1・2・3部","8":"1・2・3部","9":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"うさ":{"1":"1・2部","3":"1・2部","4":"1・2部","5":"1・2部","12":"1・2部","18":"1・2部","19":"1・2部","20":"1・2部","25":"1・2部","29":"1・2部"},"ANNA":{"2":"2・3部","7":"1・2・3部","8":"1・2・3部","12":"1・2・3部","14":"1・2部","18":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","25":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"りあん":{"1":"1・2・3部","3":"1・2部","5":"1・2・3部","6":"1・2・3部","7":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","16":"1・2・3部","19":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","26":"1・2・3部","27":"1・2・3部","28":"1・2・3部","29":"1・2・3部"},"かぐや":{"3":"1・2部","8":"2部のみ","9":"1・2部","13":"1・2部","15":"1・2部","19":"1・2部","21":"1・2部","23":"1・2部","29":"1・2部"},"Sally":{"2":"1・2部","5":"1・2部","7":"1・2部","9":"2・3部","11":"1・2部","13":"1・2部","16":"1・2部","18":"1・2部","20":"1・2部","22":"1・2部","24":"1・2部","26":"1・2部","28":"1・2部","31":"1・2部"},"うらら":{"1":"1・2・3部","2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","6":"1・2・3部","7":"1・2・3部","8":"1・2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","20":"1・2・3部","21":"1・2・3部","22":"1・2・3部","23":"1・2・3部","24":"1・2・3部","25":"1・2・3部","26":"1・2・3部"},"れい":{"1":"1・2部","2":"1・2部","4":"1・2部","6":"1・2部","7":"1・2部","8":"1・2部","9":"1・2部","10":"1・2部","11":"1・2部","13":"1・2部","14":"1・2部","15":"1・2部","18":"1・2部","19":"1・2部","21":"1・2部","22":"1・2部","26":"1・2部","27":"1・2部","28":"1・2部","29":"1・2部","31":"1・2部"},"あおい":{"1":"1・2部","2":"1・2部","3":"1・2部","6":"1・2部","8":"1・2部","9":"1・2部","10":"1・2部","11":"1・2部","14":"1・2部","15":"1・2部","16":"1・2部","19":"1・2部","20":"1・2部","21":"1・2部","22":"1・2部","24":"1・2部","26":"1・2部","27":"1・2部"},"YUU":{"1":"1・2部","2":"1・2部","4":"1・2部","8":"1・2部","9":"1・2部","11":"1・2部","13":"1・2部","15":"1・2部","16":"1・2部","18":"1・2部","20":"1・2部","22":"1・2部","23":"1・2部","25":"1・2部","27":"1・2部"},"ひかり":{"2":"1・2・3部","8":"1・2・3部","9":"1・2・3部","16":"1・2・3部","22":"1・2・3部","23":"1・2・3部","29":"1・2・3部"},"まり":{"14":"1・2部","23":"1・2部"},"りりか":{"2":"1・2・3部","3":"1・2・3部","4":"1・2・3部","5":"1・2・3部","8":"3部 PartyOn","9":"2・3部","11":"1・2・3部","12":"1・2・3部","13":"1・2・3部","14":"1・2・3部","15":"1・2・3部","16":"1・2・3部","19":"1・2・3部","20":"1・2部","21":"1・2部","23":"1・2・3部","25":"1・2・3部","26":"1・2・3部","29":"1・2・3部","31":"1・2・3部"},"せりな":{"7":"1・2部","29":"1・2部"},"つきの":{"5":"2・3部","9":"1・2・3部","13":"1・2部","16":"1・2・3部","23":"1・2・3部","26":"1・2・3部","29":"1・2・3部","31":"1・2部"}},"events":{"1":["夏祭り（浴衣DAY）"],"2":["すぱすぱ学園"],"3":["すぱすぱ学園"],"4":["1部 63 ANGEL 第35回 最終オーディション","＆すぱすぱ学園"],"5":["1・2部 スパーク新人デビュー","＆チャイナドレス"],"6":["1部 63 ANGEL 第35回 最終オーディション","＆チャイナドレス"],"7":[],"8":["3部 パリオン","かれん生誕祭"],"9":["アニメコスプレ","LINEポイント優待券利用可能","一眼レフ等 全席撮影可能日"],"10":["アニメコスプレ"],"11":["アニメコスプレ"],"12":["夏祭り（浴衣DAY）"],"13":["夏祭り（浴衣DAY）"],"14":["夏祭り（浴衣DAY）"],"15":["夏祭り（浴衣DAY）"],"16":["1・2部 NEXT STAGE"],"17":["休"],"18":["ヴィンテージTシャツ","バンド"],"19":["ヴィンテージTシャツ","バンド","LINEポイント優待券利用可能","一眼レフ等 全席撮影可能日"],"20":["3部 パリオン","Party on 9th anniversary"],"21":["3部 パリオン","Party on 9th anniversary"],"22":["3部 パリオン","Party on 9th anniversary"],"23":["1・2部 NEXT STAGE"],"24":["ピンクパーティー"],"25":["ピンクパーティー"],"26":["ヴィンテージTシャツ","夢の国"],"27":["ヴィンテージTシャツ","夢の国","LINEポイント優待券利用可能","一眼レフ等 全席撮影可能日"],"28":[],"29":[],"30":["休"],"31":[]},"closedDays":[17,30]}};
+const monthKeys=Object.keys(MONTHS).sort();
+const state={key:monthKeys.includes("2026-08")?"2026-08":monthKeys[0],selected:new Set()};
+const daysJP=["日","月","火","水","木","金","土"];
+const memberPalette=[
+  ["#ff5d8f","#ffe8f0"],
+  ["#ff9f0a","#fff0d6"],
+  ["#83c51d","#eff9dc"],
+  ["#4da3ff","#e8f3ff"],
+  ["#a66cff","#f1e9ff"],
+  ["#17b8a6","#e4faf7"],
+  ["#f06bce","#fde8f8"],
+  ["#e26d3f","#fff0e9"],
+  ["#6f78ff","#eceeff"],
+  ["#d8a400","#fff7d6"]
+];
+
+function selectedColor(name){
+  const index=[...state.selected].indexOf(name);
+  return memberPalette[(index<0?0:index)%memberPalette.length];
+}
+
+function current(){return MONTHS[state.key]}
+function parts(){const [y,m]=state.key.split("-").map(Number);return {y,m}}
+function init(){bind();renderAll()}
+function bind(){
+  prevBtn.onclick=()=>move(-1);
+  nextBtn.onclick=()=>move(1);
+  clearBtn.onclick=()=>{state.selected.clear();renderAll()};
+  allBtn.onclick=()=>{state.selected=new Set(Object.keys(current().members));renderAll()};
+  calendarBtn.onclick=()=>calendarSection.scrollIntoView({behavior:"smooth",block:"start"});
+  closeBtn.onclick=closeModal;
+  document.querySelector(".backdrop").onclick=closeModal;
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+}
+function move(dir){
+  const i=monthKeys.indexOf(state.key),ni=i+dir;
+  if(ni<0||ni>=monthKeys.length){showToast("この月のデータはまだないよ");return}
+  state.key=monthKeys[ni];
+  state.selected=new Set([...state.selected].filter(n=>current().members[n]));
+  renderAll()
+}
+function renderAll(){renderHeader();renderMembers();renderCalendar();renderNext()}
+function renderHeader(){
+  const {y,m}=parts();
+  monthLabel.textContent=`${y}年${m}月 ${m===8?"☀️":"🎀"}`;
+  calendarTitle.textContent=`${y}年${m}月 出演カレンダー`;
+  prevBtn.disabled=monthKeys.indexOf(state.key)===0;
+  nextBtn.disabled=monthKeys.indexOf(state.key)===monthKeys.length-1;
+}
+function renderMembers(){
+  memberGrid.innerHTML="";
+  Object.entries(current().members)
+    .sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length)
+    .forEach(([name])=>{
+      const b=document.createElement("button");
+      b.className="member"+(state.selected.has(name)?" selected":"");
+      b.type="button";
+      if(state.selected.has(name)){
+        const [strong,soft]=selectedColor(name);
+        b.style.setProperty("--member-strong",strong);
+        b.style.setProperty("--member-soft",soft);
+      }
+      b.innerHTML=`<span class="heart"></span><span class="name">${name}</span>`;
+      b.onclick=()=>{
+        state.selected.has(name)?state.selected.delete(name):state.selected.add(name);
+        renderAll()
+      };
+      memberGrid.appendChild(b)
+    })
+}
+function renderCalendar(){
+  calendar.innerHTML="";
+  const {y,m}=parts();
+  const first=new Date(y,m-1,1).getDay();
+  const count=new Date(y,m,0).getDate();
+  const selected=[...state.selected];
+  const now=new Date();
+
+  for(let i=0;i<first;i++) calendar.insertAdjacentHTML("beforeend",'<div class="day empty"></div>');
+
+  for(let d=1;d<=count;d++){
+    const cell=document.createElement("div");
+    cell.className="day";
+    const present=selected.filter(name=>current().members[name]?.[String(d)]);
+    if(selected.length>1&&present.length===selected.length) cell.classList.add("common");
+    if((current().closedDays||[]).includes(d)) cell.classList.add("closed");
+    if(now.getFullYear()===y&&now.getMonth()+1===m&&now.getDate()===d) cell.classList.add("today");
+    cell.innerHTML=`<div class="day-number">${d}</div>`;
+    (current().events[String(d)]||[]).forEach(e=>cell.insertAdjacentHTML("beforeend",`<div class="event">${e}</div>`));
+    present.forEach(name=>{
+      const [strong,soft]=selectedColor(name);
+      cell.insertAdjacentHTML(
+        "beforeend",
+        `<div class="shift" style="--shift-strong:${strong};--shift-soft:${soft}">${name}</div>`
+      );
+    });
+    cell.onclick=()=>openModal(d);
+    calendar.appendChild(cell)
+  }
+
+  if(selected.length){
+    selectedSummary.textContent=`${selected.length}人選択中・全員が出演する日は金色`;
+    legend.classList.remove("hidden");
+    legend.innerHTML=selected.map(n=>{
+      const [strong,soft]=selectedColor(n);
+      return `<span style="--legend-strong:${strong};--legend-soft:${soft}">${n}</span>`;
+    }).join("")
+  }else{
+    selectedSummary.textContent="女の子を選ぶと出演日が表示されます";
+    legend.classList.add("hidden");
+    legend.innerHTML=""
+  }
+}
+function getStart(){
+  const {y,m}=parts(),now=new Date();
+  return now.getFullYear()===y&&now.getMonth()+1===m?now.getDate():1
+}
+function renderNext(){
+  nextCards.innerHTML="";
+  if(!state.selected.size){nextSection.classList.add("hidden");return}
+  nextSection.classList.remove("hidden");
+  const {y,m}=parts(),start=getStart();
+  [...state.selected].forEach(name=>{
+    const schedule=current().members[name]||{};
+    const days=Object.keys(schedule).map(Number).filter(d=>d>=start).sort((a,b)=>a-b);
+    const d=days[0];
+    const card=document.createElement("div");
+    card.className="next-card";
+    card.innerHTML=d
+      ?`<b>${name}</b><div class="next-date">${m}/${d}（${daysJP[new Date(y,m-1,d).getDay()]}）</div><div>${schedule[String(d)]}</div><small>今月あと${days.length}日出演予定</small>`
+      :`<b>${name}</b><div class="next-date">今月は終了</div>`;
+    nextCards.appendChild(card)
+  })
+}
+function membersOn(day){
+  return Object.entries(current().members)
+    .filter(([_,s])=>s[String(day)])
+    .map(([name,s])=>({name,shift:s[String(day)]}))
+}
+function openModal(day){
+  const {y,m}=parts();
+  const members=membersOn(day);
+  modalTitle.textContent=`${m}/${day}（${daysJP[new Date(y,m-1,day).getDay()]}）の出演メンバー`;
+  modalEvent.textContent=(current().events[String(day)]||[]).join(" / ");
+  modalMembers.innerHTML=members.length
+    ?members.map(x=>`<div class="modal-member"><b>${x.name}</b><span>${x.shift}</span></div>`).join("")
+    :`<div>この日の出演データはありません</div>`;
+  dayModal.classList.remove("hidden");
+  document.body.classList.add("modal-open")
+}
+function closeModal(){
+  dayModal.classList.add("hidden");
+  document.body.classList.remove("modal-open")
+}
+function showToast(msg){
+  toast.textContent=msg;toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),1500)
+}
+init();
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>

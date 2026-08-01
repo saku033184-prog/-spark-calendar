@@ -373,6 +373,126 @@ body::after{
   color:var(--legend-strong);
 }
 
+
+/* Compact mobile first-screen layout */
+@media(max-width:600px){
+  main{
+    padding:2px 5px 28px;
+  }
+  .hero{
+    padding:0 4px 7px;
+  }
+  .brand{
+    margin-top:0;
+    line-height:.67;
+  }
+  .brand .super{
+    font-size:30px;
+  }
+  .brand .spark{
+    font-size:54px;
+    margin-top:3px;
+  }
+  .brand .tokyo{
+    font-size:27px;
+    margin-top:3px;
+  }
+  .title-pill{
+    margin:8px auto 4px;
+    padding:5px 15px;
+    border-radius:14px;
+    font-size:21px;
+  }
+  .subtitle{
+    font-size:10px;
+    line-height:1.15;
+  }
+  .month-card{
+    grid-template-columns:38px 1fr 38px;
+    gap:4px;
+    padding:6px 8px;
+    margin-bottom:7px;
+    border-radius:20px;
+  }
+  .round-btn{
+    width:34px;
+    height:34px;
+    font-size:21px;
+    border-width:1.5px;
+  }
+  .month-label{
+    font-size:24px;
+  }
+  .selector{
+    padding:8px 7px 9px;
+    border-radius:22px;
+  }
+  .selector-head{
+    margin-bottom:6px;
+    gap:5px;
+    align-items:center;
+  }
+  .selector-head h2{
+    font-size:15px;
+    line-height:1.05;
+    white-space:nowrap;
+  }
+  .selector-actions{
+    flex-direction:row;
+    gap:4px;
+  }
+  .small-btn{
+    padding:5px 7px;
+    border-radius:10px;
+    font-size:9px;
+    white-space:nowrap;
+  }
+  .member-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:3px;
+  }
+  .member{
+    min-height:29px;
+    padding:4px 5px;
+    gap:4px;
+    border-radius:10px;
+    border-width:1px;
+  }
+  .member .heart{
+    font-size:12px;
+  }
+  .member .name{
+    font-size:10.5px;
+    line-height:1;
+  }
+  .calendar-card{
+    margin-top:8px;
+  }
+  .hero::before,.hero::after{
+    font-size:15px;
+  }
+}
+
+/* Slightly shorter phones */
+@media(max-width:600px) and (max-height:760px){
+  .brand .super{font-size:26px}
+  .brand .spark{font-size:46px}
+  .brand .tokyo{font-size:23px}
+  .title-pill{font-size:18px;padding:4px 12px;margin-top:6px}
+  .subtitle{font-size:9px}
+  .month-card{padding:4px 7px;margin-bottom:5px}
+  .month-label{font-size:21px}
+  .round-btn{width:31px;height:31px;font-size:19px}
+  .selector{padding:6px}
+  .selector-head{margin-bottom:4px}
+  .selector-head h2{font-size:13px}
+  .small-btn{font-size:8px;padding:4px 6px}
+  .member-grid{gap:2px}
+  .member{min-height:26px;padding:3px 4px}
+  .member .heart{font-size:11px}
+  .member .name{font-size:9.5px}
+}
+
 </style>
 </head>
 <body>
@@ -402,7 +522,7 @@ body::after{
       </div>
     </div>
     <div id="memberGrid" class="member-grid"></div>
-    <button id="calendarBtn" class="cta">✦ カレンダーを見る　›</button>
+    
   </section>
 
   <section id="calendarSection" class="card calendar-card">
@@ -466,7 +586,7 @@ function bind(){
   nextBtn.onclick=()=>move(1);
   clearBtn.onclick=()=>{state.selected.clear();renderAll()};
   allBtn.onclick=()=>{state.selected=new Set(Object.keys(current().members));renderAll()};
-  calendarBtn.onclick=()=>calendarSection.scrollIntoView({behavior:"smooth",block:"start"});
+  
   closeBtn.onclick=closeModal;
   document.querySelector(".backdrop").onclick=closeModal;
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});

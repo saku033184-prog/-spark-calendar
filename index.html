@@ -493,18 +493,214 @@ body::after{
   .member .name{font-size:9.5px}
 }
 
+
+/* Ultra compact mobile layout */
+@media(max-width:600px){
+  main{padding:0 3px 18px}
+  .hero{padding:0 2px 3px}
+  .brand{margin-top:0;line-height:.58}
+  .brand .super{font-size:21px}
+  .brand .spark{font-size:37px;margin-top:1px}
+  .brand .tokyo{font-size:18px;margin-top:1px}
+  .title-pill{
+    margin:4px auto 2px;
+    padding:3px 10px;
+    border-radius:10px;
+    font-size:15px;
+  }
+  .subtitle{
+    font-size:7.5px;
+    line-height:1;
+    white-space:nowrap;
+  }
+  .month-card{
+    grid-template-columns:30px 1fr 30px;
+    gap:2px;
+    padding:3px 5px;
+    margin-bottom:4px;
+    border-radius:15px;
+  }
+  .round-btn{
+    width:27px;
+    height:27px;
+    font-size:17px;
+    border-width:1px;
+  }
+  .month-label{
+    font-size:18px;
+    letter-spacing:-.05em;
+  }
+  .selector{
+    padding:4px 4px 5px;
+    border-radius:15px;
+  }
+  .selector-head{
+    margin-bottom:3px;
+    gap:3px;
+  }
+  .selector-head h2{
+    font-size:10.5px;
+    line-height:1;
+  }
+  .selector-actions{gap:2px}
+  .small-btn{
+    padding:3px 4px;
+    border-radius:7px;
+    font-size:6.8px;
+    border-width:1px;
+  }
+  .member-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:1.5px;
+  }
+  .member{
+    min-height:20px;
+    padding:2px 3px;
+    gap:2px;
+    border-radius:7px;
+    border-width:1px;
+  }
+  .member .heart{font-size:8px}
+  .member .name{
+    font-size:7.7px;
+    line-height:1;
+  }
+  .card{border-width:1px}
+  .hero::before,.hero::after{display:none}
+  .calendar-card{margin-top:5px}
+}
+
+/* extra-small phones */
+@media(max-width:390px){
+  .brand .super{font-size:19px}
+  .brand .spark{font-size:34px}
+  .brand .tokyo{font-size:16px}
+  .title-pill{font-size:14px}
+  .subtitle{font-size:7px}
+  .month-label{font-size:17px}
+  .selector-head h2{font-size:9.5px}
+  .small-btn{font-size:6.4px}
+  .member{min-height:19px}
+  .member .name{font-size:7.2px}
+}
+
+
+/* FINAL mobile-first ultra compact header */
+.compact-hero{
+  padding:0 2px 3px !important;
+  margin:0 !important;
+  text-align:center;
+  min-height:0 !important;
+}
+.compact-brand{
+  display:grid;
+  grid-template-columns:auto auto;
+  grid-template-areas:
+    "super spark"
+    "tokyo tokyo";
+  justify-content:center;
+  align-items:end;
+  column-gap:2px;
+  line-height:.78;
+  margin:0 auto 1px;
+  color:#ff8400;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:900;
+  letter-spacing:-.06em;
+  text-shadow:0 1px 0 #fff2bd,0 0 9px rgba(255,171,0,.18);
+}
+.brand-super{
+  grid-area:super;
+  font-size:17px;
+  align-self:center;
+  margin-bottom:2px;
+}
+.brand-spark{
+  grid-area:spark;
+  font-size:31px;
+}
+.brand-tokyo{
+  grid-area:tokyo;
+  font-size:13px;
+  margin-top:-2px;
+}
+.compact-title{
+  display:inline-block;
+  margin:1px auto 1px;
+  padding:2px 9px 3px;
+  border-radius:9px;
+  background:linear-gradient(180deg,#fff2a6,#ffd86b);
+  color:#ff8400;
+  font-size:13px;
+  font-weight:1000;
+  line-height:1;
+  box-shadow:0 4px 10px rgba(255,160,0,.13);
+}
+.compact-subtitle{
+  margin:0;
+  color:#9b6c32;
+  font-size:7.2px;
+  font-weight:800;
+  line-height:1;
+  white-space:nowrap;
+}
+@media(max-width:600px){
+  .month-card{
+    margin-top:2px !important;
+    grid-template-columns:24px 1fr 24px !important;
+    padding:2px 4px !important;
+    border-radius:12px !important;
+  }
+  .round-btn{
+    width:22px !important;
+    height:22px !important;
+    font-size:14px !important;
+    line-height:1 !important;
+  }
+  .month-label{
+    font-size:15px !important;
+    line-height:1 !important;
+  }
+  .selector{
+    margin-top:3px !important;
+    padding:3px 3px 4px !important;
+  }
+  .selector-head h2{
+    font-size:9px !important;
+  }
+  .small-btn{
+    font-size:6px !important;
+    padding:2px 4px !important;
+  }
+  .member{
+    min-height:18px !important;
+    padding:2px 3px !important;
+  }
+  .member .heart{font-size:7px !important}
+  .member .name{font-size:6.8px !important}
+}
+@media(max-width:390px){
+  .brand-super{font-size:15px}
+  .brand-spark{font-size:28px}
+  .brand-tokyo{font-size:12px}
+  .compact-title{font-size:12px}
+  .compact-subtitle{font-size:6.6px}
+  .month-label{font-size:14px !important}
+  .member .name{font-size:6.4px !important}
+}
+
 </style>
 </head>
 <body>
 <main>
-  <header class="hero">
-    <div class="brand" aria-label="Super Spark Tokyo">
-      <span class="super">Super</span>
-      <span class="spark">Spark</span>
-      <span class="tokyo">Tokyo</span>
+  <header class="hero compact-hero">
+    <div class="compact-brand" aria-label="Super Spark Tokyo">
+      <span class="brand-super">Super</span>
+      <span class="brand-spark">Spark</span>
+      <span class="brand-tokyo">Tokyo</span>
     </div>
-    <div class="title-pill">♡ 出演予定 ♡</div>
-    <p class="subtitle">会いたい子を選ぶと、共演日・次の出演日・<strong>がわかります</strong></p>
+    <div class="compact-title">♡出演予定♡</div>
+    <p class="compact-subtitle">会いたい子を選ぶと、共演日・次の出演日がわかります</p>
   </header>
 
   <section class="card month-card">

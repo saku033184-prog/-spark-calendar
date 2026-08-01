@@ -694,7 +694,7 @@ body::after{
    1画面目 = タイトル + 女の子一覧
    2画面目 = カレンダー */
 html{
-  scroll-snap-type:y proximity;
+  scroll-snap-type:none;
 }
 @media(max-width:600px){
   body{
@@ -742,7 +742,7 @@ html{
   }
 
   .first-screen{
-    scroll-snap-align:start;
+    scroll-snap-align:none;
     min-height:calc(100svh - 150px);
     padding:10px 9px 12px !important;
     border-radius:22px !important;
@@ -786,7 +786,7 @@ html{
 
   /* 2画面目：カレンダー */
   .calendar-screen{
-    scroll-snap-align:start;
+    scroll-snap-align:none;
     min-height:100svh;
     margin-top:10px !important;
     border-radius:22px !important;
@@ -856,6 +856,35 @@ html{
   .month-label{font-size:20px !important}
   .member{min-height:32px !important;padding:6px 8px !important}
   .member .name{font-size:11px !important}
+}
+
+
+/* COMPLETE scroll/sticky removal */
+html, body{
+  scroll-snap-type:none !important;
+  overscroll-behavior:auto !important;
+}
+main, section, .first-screen, .calendar-screen{
+  scroll-snap-align:none !important;
+  scroll-snap-stop:normal !important;
+}
+.first-screen,
+.calendar-screen{
+  min-height:auto !important;
+}
+.month-card{
+  position:relative !important;
+  top:auto !important;
+  z-index:20 !important;
+  overflow:visible !important;
+  touch-action:manipulation !important;
+}
+.month-card .round-btn{
+  position:relative !important;
+  z-index:30 !important;
+  pointer-events:auto !important;
+  touch-action:manipulation !important;
+  -webkit-tap-highlight-color:transparent;
 }
 
 </style>
@@ -947,8 +976,16 @@ function current(){return MONTHS[state.key]}
 function parts(){const [y,m]=state.key.split("-").map(Number);return {y,m}}
 function init(){bind();renderAll()}
 function bind(){
-  prevBtn.onclick=()=>move(-1);
-  nextBtn.onclick=()=>move(1);
+  prevBtn.onclick=(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    move(-1);
+  };
+  nextBtn.onclick=(e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    move(1);
+  };
   clearBtn.onclick=()=>{state.selected.clear();renderAll()};
   allBtn.onclick=()=>{state.selected=new Set(Object.keys(current().members));renderAll()};
   
@@ -959,9 +996,13 @@ function bind(){
 function move(dir){
   const i=monthKeys.indexOf(state.key),ni=i+dir;
   if(ni<0||ni>=monthKeys.length){showToast("この月のデータはまだないよ");return}
+  const currentScrollY=window.scrollY;
   state.key=monthKeys[ni];
   state.selected=new Set([...state.selected].filter(n=>current().members[n]));
-  renderAll()
+  renderAll();
+  requestAnimationFrame(()=>{
+    window.scrollTo({top:currentScrollY,left:0,behavior:"auto"});
+  });
 }
 function renderAll(){renderHeader();renderMembers();renderCalendar();renderNext()}
 function renderHeader(){
@@ -986,8 +1027,19 @@ function renderMembers(){
       }
       b.innerHTML=`<span class="heart"></span><span class="name">${name}</span>`;
       b.onclick=()=>{
-        state.selected.has(name)?state.selected.delete(name):state.selected.add(name);
-        renderAll()
+        const wasSelected=state.selected.has(name);
+        wasSelected?state.selected.delete(name):state.selected.add(name);
+        renderAll();
+
+        // 新しく選択したときだけカレンダーへ自動スクロール
+        if(!wasSelected){
+          requestAnimationFrame(()=>{
+            calendarSection.scrollIntoView({
+              behavior:"smooth",
+              block:"start"
+            });
+          });
+        }
       };
       memberGrid.appendChild(b)
     })

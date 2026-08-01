@@ -887,6 +887,106 @@ main, section, .first-screen, .calendar-screen{
   -webkit-tap-highlight-color:transparent;
 }
 
+
+/* PASTEL unified theme */
+:root{
+  --pink:#d98ba7 !important;
+  --pink2:#e6a8bd !important;
+  --soft:#fff8fb !important;
+  --soft2:#fdf2f7 !important;
+  --line:#ead7df !important;
+  --text:#4a3f44 !important;
+  --muted:#9a8790 !important;
+  --sun:#d98ba7 !important;
+  --sat:#9db8d6 !important;
+}
+body{
+  background:
+    radial-gradient(circle at 8% 4%,#fff 0 8%,transparent 23%),
+    radial-gradient(circle at 92% 7%,#fff 0 9%,transparent 25%),
+    linear-gradient(180deg,#fffdfd 0%,#fff9fb 48%,#fdf4f7 100%) !important;
+}
+body::after{
+  opacity:.28 !important;
+  filter:saturate(.45) brightness(1.08);
+}
+.card{
+  background:rgba(255,255,255,.94) !important;
+  border-color:#ead7df !important;
+  box-shadow:0 14px 34px rgba(173,135,151,.11) !important;
+}
+.compact-brand{
+  color:#d8a96f !important;
+  text-shadow:0 1px 0 #fff,0 0 8px rgba(216,169,111,.14) !important;
+}
+.compact-title{
+  background:linear-gradient(180deg,#fff8e8,#f8e8c9) !important;
+  color:#c79a63 !important;
+  box-shadow:0 4px 10px rgba(199,154,99,.11) !important;
+}
+.compact-subtitle{color:#9a8790 !important}
+.month-label,.calendar-head h2,.selector-head h2{
+  color:#b98c73 !important;
+  text-shadow:none !important;
+}
+.round-btn,.small-btn{
+  background:#fffdfd !important;
+  border-color:#ead7df !important;
+  color:#b98c73 !important;
+}
+.member{
+  background:linear-gradient(180deg,#fff,#fffafb) !important;
+  border-color:#ead7df !important;
+  color:#4a3f44 !important;
+}
+.member.selected{
+  background:linear-gradient(135deg,var(--member-soft),#fff) !important;
+  border-color:var(--member-strong) !important;
+  box-shadow:0 6px 14px color-mix(in srgb,var(--member-strong) 20%,transparent) !important;
+  animation:none !important;
+}
+.member.selected .heart,
+.member.selected .name{
+  color:color-mix(in srgb,var(--member-strong) 82%,#6b5d64) !important;
+}
+.shift{
+  background:var(--shift-soft) !important;
+  color:color-mix(in srgb,var(--shift-strong) 76%,#5f5158) !important;
+  border:1px solid color-mix(in srgb,var(--shift-strong) 50%,white) !important;
+  box-shadow:none !important;
+}
+.legend span{
+  background:var(--legend-soft) !important;
+  color:color-mix(in srgb,var(--legend-strong) 78%,#5f5158) !important;
+  border-color:color-mix(in srgb,var(--legend-strong) 42%,white) !important;
+}
+.event{
+  color:#b98c73 !important;
+}
+.day.common{
+  background:linear-gradient(180deg,#fffdf5,#fbf3dc) !important;
+  box-shadow:inset 0 0 0 2px #e8d5a8 !important;
+  animation:none !important;
+}
+.day.today{
+  box-shadow:inset 0 0 0 3px #dcb3c3 !important;
+}
+.day.closed{
+  background:repeating-linear-gradient(135deg,#faf7f8,#faf7f8 8px,#f3ecef 8px,#f3ecef 16px) !important;
+}
+.next-card{
+  background:#fffafb !important;
+  border-color:#ead7df !important;
+}
+.next-card b{color:#b98c73 !important}
+.reserve{
+  background:linear-gradient(90deg,#d9a9b9,#c9b1d9) !important;
+}
+.hero::before,.hero::after{
+  color:#e8d8bc !important;
+  filter:none !important;
+}
+
 </style>
 </head>
 <body>
@@ -955,16 +1055,16 @@ const monthKeys=Object.keys(MONTHS).sort();
 const state={key:monthKeys.includes("2026-08")?"2026-08":monthKeys[0],selected:new Set()};
 const daysJP=["日","月","火","水","木","金","土"];
 const memberPalette=[
-  ["#ff5d8f","#ffe8f0"],
-  ["#ff9f0a","#fff0d6"],
-  ["#83c51d","#eff9dc"],
-  ["#4da3ff","#e8f3ff"],
-  ["#a66cff","#f1e9ff"],
-  ["#17b8a6","#e4faf7"],
-  ["#f06bce","#fde8f8"],
-  ["#e26d3f","#fff0e9"],
-  ["#6f78ff","#eceeff"],
-  ["#d8a400","#fff7d6"]
+  ["#f3b6cc","#fff0f6"],
+  ["#f6c5a8","#fff3ea"],
+  ["#efd98d","#fff8dc"],
+  ["#bfe6d1","#eefaf4"],
+  ["#bcdcf4","#eef7fd"],
+  ["#d7c6ef","#f6f0fd"],
+  ["#e7c8dc","#fbf2f8"],
+  ["#cfd7e8","#f4f7fb"],
+  ["#cbe6e1","#f1faf8"],
+  ["#ead8bd","#fbf6ee"]
 ];
 
 function selectedColor(name){
@@ -1027,6 +1127,7 @@ function renderMembers(){
       }
       b.innerHTML=`<span class="heart"></span><span class="name">${name}</span>`;
       b.onclick=()=>{
+        b.animate([{transform:"scale(1)"},{transform:"scale(1.04)"},{transform:"scale(1)"}],{duration:180});
         const wasSelected=state.selected.has(name);
         wasSelected?state.selected.delete(name):state.selected.add(name);
         renderAll();

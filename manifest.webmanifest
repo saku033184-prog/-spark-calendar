@@ -1,0 +1,15 @@
+{
+  "name": "すぱすぱ 出演メンバーカレンダー",
+  "short_name": "すぱすぱ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff2f7",
+  "theme_color": "#ffddec",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1028,6 +1028,65 @@ body::after{
   font-weight:900 !important;
 }
 
+
+/* Fixed reservation bar */
+body{
+  padding-bottom:calc(78px + env(safe-area-inset-bottom)) !important;
+}
+.fixed-reserve-bar{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:999;
+  text-decoration:none;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-top:1px solid rgba(222,198,208,.7);
+  box-shadow:0 -8px 28px rgba(139,103,119,.12);
+}
+.fixed-reserve-glass{
+  display:block;
+  width:min(100%,850px);
+  margin:0 auto;
+}
+.fixed-reserve-button{
+  display:block;
+  width:100%;
+  text-align:center;
+  border-radius:18px;
+  padding:14px 18px;
+  color:#fff;
+  font-size:17px;
+  font-weight:1000;
+  letter-spacing:.02em;
+  background:linear-gradient(90deg,#e9a9bf,#d8b6e8);
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:
+    0 10px 24px rgba(190,137,164,.28),
+    inset 0 1px 0 rgba(255,255,255,.45);
+  transition:transform .16s ease,filter .16s ease;
+}
+.fixed-reserve-bar:active .fixed-reserve-button{
+  transform:scale(.985);
+  filter:brightness(.98);
+}
+@media(max-width:600px){
+  body{
+    padding-bottom:calc(70px + env(safe-area-inset-bottom)) !important;
+  }
+  .fixed-reserve-bar{
+    padding:6px 7px calc(6px + env(safe-area-inset-bottom));
+  }
+  .fixed-reserve-button{
+    padding:12px 14px;
+    border-radius:16px;
+    font-size:15px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1085,9 +1144,20 @@ body::after{
     <h2 id="modalTitle"></h2>
     <div id="modalEvent" class="modal-event"></div>
     <div id="modalMembers" class="modal-members"></div>
-    <a class="reserve" href="https://superspark.tokyo/booking/" target="_blank" rel="noopener noreferrer">✦ 予約はこちら</a>
+    
   </div>
 </div>
+
+<a class="fixed-reserve-bar"
+   href="https://superspark.tokyo/booking/"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="予約はこちら">
+  <span class="fixed-reserve-glass">
+    <span class="fixed-reserve-button">♡ 予約はこちら ♡</span>
+  </span>
+</a>
+
 <div id="toast" class="toast"></div>
 
 <script>

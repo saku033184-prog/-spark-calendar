@@ -1,4 +1,4 @@
-const CACHE_NAME = "spark-calendar-v10";
+const CACHE_NAME = "spark-calendar-v11";
 const ASSETS = [
   "./",
   "./index.html",

@@ -1208,6 +1208,76 @@ body{
   box-shadow:none !important;
 }
 
+
+/* Name-first compact profile layout */
+.member{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) auto !important;
+  align-items:center !important;
+  column-gap:6px !important;
+}
+.member-main{
+  min-width:0 !important;
+  overflow:visible !important;
+}
+.member .name{
+  min-width:0 !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  white-space:nowrap !important;
+  font-weight:900 !important;
+}
+.member-profile-btn{
+  max-width:112px !important;
+  min-width:0 !important;
+  min-height:22px !important;
+  padding:3px 6px !important;
+  border-radius:8px !important;
+  font-size:7.2px !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  letter-spacing:-.01em !important;
+}
+.pending-profile{
+  max-width:116px !important;
+  font-size:6.8px !important;
+  padding:3px 5px !important;
+}
+@media(max-width:430px){
+  .member{
+    column-gap:4px !important;
+    padding-left:8px !important;
+    padding-right:5px !important;
+  }
+  .member .name{
+    font-size:11.5px !important;
+  }
+  .member-profile-btn{
+    max-width:101px !important;
+    min-height:20px !important;
+    padding:3px 5px !important;
+    font-size:6.5px !important;
+  }
+  .pending-profile{
+    max-width:104px !important;
+    font-size:6.2px !important;
+    padding:3px 4px !important;
+  }
+}
+@media(max-width:370px){
+  .member .name{
+    font-size:10.8px !important;
+  }
+  .member-profile-btn{
+    max-width:94px !important;
+    font-size:6.1px !important;
+  }
+  .pending-profile{
+    max-width:96px !important;
+    font-size:5.8px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1370,9 +1440,9 @@ function renderMembers(){
                href="${profile}"
                target="_blank"
                rel="noopener noreferrer"
-               aria-label="${name}のプロフィールを見る">♡ プロフィールを見る ↗</a>`
+               aria-label="${name}のプロフィールを見る">♡ プロフィール ↗</a>`
           : pendingProfiles.includes(name)
-            ? `<span class="member-profile-btn pending-profile">プロフィール作成中♡</span>`
+            ? `<span class="member-profile-btn pending-profile">作成中♡</span>`
             : ""}
       `;
 

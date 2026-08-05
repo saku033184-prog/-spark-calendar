@@ -1138,6 +1138,45 @@ body{
   }
 }
 
+
+/* Profile button shown inside a selected member card */
+.member{
+  justify-content:space-between !important;
+  overflow:visible !important;
+}
+.member-main{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+  flex:1;
+}
+.member-profile-btn{
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:26px;
+  padding:5px 8px;
+  border-radius:10px;
+  text-decoration:none;
+  white-space:nowrap;
+  color:#9f6b82;
+  background:linear-gradient(135deg,#fff4f8,#f5edff);
+  border:1px solid #e5c8d5;
+  font-size:8.5px;
+  font-weight:900;
+  box-shadow:0 3px 8px rgba(173,117,143,.08);
+}
+@media(max-width:430px){
+  .member-profile-btn{
+    min-height:24px;
+    padding:4px 6px;
+    border-radius:8px;
+    font-size:7.4px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1288,14 +1327,35 @@ function renderMembers(){
         b.style.setProperty("--member-strong",strong);
         b.style.setProperty("--member-soft",soft);
       }
-      b.innerHTML=`<span class="heart"></span><span class="name">${name}</span>`;
-      b.onclick=()=>{
+      const profile=profileUrls[name];
+      b.innerHTML=`
+        <span class="member-main">
+          <span class="heart"></span>
+          <span class="name">${name}</span>
+        </span>
+        ${profile && state.selected.has(name)
+          ? `<a class="member-profile-btn"
+               href="${profile}"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="${name}のプロフィールを見る">プロフィールを見る</a>`
+          : ""}
+      `;
+
+      const profileBtn=b.querySelector(".member-profile-btn");
+      if(profileBtn){
+        profileBtn.addEventListener("click",(e)=>{
+          e.stopPropagation();
+        });
+      }
+
+      b.onclick=(e)=>{
+        if(e.target.closest(".member-profile-btn")) return;
         b.animate([{transform:"scale(1)"},{transform:"scale(1.04)"},{transform:"scale(1)"}],{duration:180});
         const wasSelected=state.selected.has(name);
         wasSelected?state.selected.delete(name):state.selected.add(name);
         renderAll();
 
-        // 新しく選択したときだけカレンダーへ自動スクロール
         if(!wasSelected){
           requestAnimationFrame(()=>{
             calendarSection.scrollIntoView({

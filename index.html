@@ -1278,6 +1278,65 @@ body{
   }
 }
 
+
+/* Stronger, clearer color contrast */
+:root{
+  --line:#e6c2cf !important;
+  --pink:#d93f75 !important;
+  --pink2:#ee5e93 !important;
+  --sun:#df477d !important;
+  --sat:#3d86c9 !important;
+  --muted:#86616f !important;
+}
+.calendar-card{
+  border-color:#e1b6c6 !important;
+  box-shadow:0 12px 34px rgba(170,89,120,.13) !important;
+}
+.weekdays div{
+  background:#fff1b8 !important;
+  border-color:#dfb8c6 !important;
+  color:#3a3034 !important;
+}
+.day{
+  border-color:#e2bdc9 !important;
+}
+.day.empty{
+  background:#fff7fa !important;
+}
+.day.common{
+  background:linear-gradient(180deg,#fff2a6,#ffe07a) !important;
+  box-shadow:inset 0 0 0 2px #dda800 !important;
+}
+.event{
+  color:#a9553f !important;
+  font-weight:1000 !important;
+}
+.member{
+  border-color:#e6c0cc !important;
+  background:linear-gradient(180deg,#fff,#fff8f4) !important;
+}
+.member.selected{
+  border-width:2px !important;
+}
+.legend span{
+  border-width:2px !important;
+}
+.shift{
+  border-width:1.5px !important;
+  color:#20181b !important;
+  background:var(--shift-soft) !important;
+  border-color:var(--shift-strong) !important;
+  box-shadow:0 2px 6px color-mix(in srgb,var(--shift-strong) 24%,transparent) !important;
+}
+.profile-btn{
+  color:#8e3c61 !important;
+  border-color:#dca6ba !important;
+  background:linear-gradient(135deg,#fff0f6,#f2e4ff) !important;
+}
+.title-pill{
+  background:linear-gradient(180deg,#ffe783,#ffc94f) !important;
+}
+
 </style>
 </head>
 <body>
@@ -1360,16 +1419,16 @@ const monthKeys=Object.keys(MONTHS).sort();
 const state={key:monthKeys.includes("2026-08")?"2026-08":monthKeys[0],selected:new Set()};
 const daysJP=["日","月","火","水","木","金","土"];
 const memberPalette=[
-  ["#ff8fb8","#fff0f6"],
-  ["#ffb46a","#fff3e8"],
-  ["#ffd84d","#fff9dd"],
-  ["#7fe3ae","#effcf5"],
-  ["#8dcfff","#eef8ff"],
-  ["#7fb8ff","#eef4ff"],
-  ["#c8a2ff","#f7f1ff"],
-  ["#f3a6cf","#fff2f9"],
-  ["#8fded8","#effcfb"],
-  ["#e7c27d","#fff8ea"]
+  ["#ff4f96","#ffe3ef"],
+  ["#ff861f","#ffe8d2"],
+  ["#e6b300","#fff2b8"],
+  ["#14a98f","#dff7f2"],
+  ["#248df4","#e0efff"],
+  ["#6557e8","#e9e6ff"],
+  ["#a84fd6","#f2e2fb"],
+  ["#ed4f5f","#ffe1e5"],
+  ["#159db8","#dff5fa"],
+  ["#b67a00","#f9ebc6"]
 ];
 
 function selectedColor(name){
